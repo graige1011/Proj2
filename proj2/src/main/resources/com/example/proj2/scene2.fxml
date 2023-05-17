@@ -8,16 +8,18 @@
 
 <?import javafx.scene.control.Button?>
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.proj2.HelloController">
+      fx:controller="com.example.proj2.Scene2Controller">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
     <Label fx:id="welcomeText"/>
-    <TextField fx:id="textField" promptText="Enter text"/>
+    <TextField fx:id="textField" promptText="Enter je naam"/>
+    <TextField fx:id="textField3" promptText="Enter je email"/>
+    <TextField fx:id="textField4" promptText="Enter je username"/>
     <PasswordField fx:id="passwordField" promptText="Enter password"/>
-    <Button fx:id="loginButton" text="Log in" onAction="#onHelloButtonClick"/>
-    <Button fx:id="forgotPasswordButton" text="Wachtwoord vergeten" onAction="#switchToScene3"/>
-    <Button fx:id="createAccountButton" text="Nieuwe account aanmaken" onAction="#switchToScene2"/>
+    <Button fx:id="loginButton" text="maak account aan" onAction="#switchToScene4"/>
+
+
 
 </VBox>

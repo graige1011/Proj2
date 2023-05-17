@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.proj2.Scene4Controller">
+
+    <Label text="Succesvol een nieuw account aangemaakt. Wil je inloggen?"/>
+    <Button text="Terug naar Inloggen" onAction="#switchToScene1"/>
+
+</VBox>
