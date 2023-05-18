@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -8,17 +7,16 @@
 
 <?import javafx.scene.control.Button?>
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.proj2.HelloController">
+      fx:controller="com.example.proj2.Scene3Controller">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
-    <Label fx:id="welcomeText"/>
-    <TextField fx:id="textField" promptText="Enter je usernaam"/>
-    <PasswordField fx:id="passwordField" promptText="Enter je nieuwe password"/>
-    <PasswordField fx:id="passwordField2" promptText="Confirm je nieuwe password"/>
-    <Button fx:id="ResetPassword" text="Reset password" onAction="#onHelloButtonClick"/>
-
-
+    <Label fx:id="welcomeText" text="Reset je wachtwoord" style="-fx-font-size: 24px; -fx-text-fill: darkblue;"/>
+    <TextField fx:id="textField" promptText="Voer je gebruikersnaam in" style="-fx-background-color: white;"/>
+    <PasswordField fx:id="passwordField" promptText="Voer je nieuwe wachtwoord in" style="-fx-background-color: white;"/>
+    <PasswordField fx:id="passwordField2" promptText="Bevestig je nieuwe wachtwoord" style="-fx-background-color: white;"/>
+    <Button fx:id="ResetPassword" text="Wachtwoord herstellen" onAction="#idkfiller"
+            style="-fx-background-color: lightblue; -fx-text-fill: white;"/>
 
 </VBox>

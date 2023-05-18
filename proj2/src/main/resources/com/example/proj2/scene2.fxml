@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -13,13 +12,12 @@
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
-    <Label fx:id="welcomeText"/>
-    <TextField fx:id="textField" promptText="Enter je naam"/>
-    <TextField fx:id="textField3" promptText="Enter je email"/>
-    <TextField fx:id="textField4" promptText="Enter je username"/>
-    <PasswordField fx:id="passwordField" promptText="Enter password"/>
-    <Button fx:id="loginButton" text="maak account aan" onAction="#switchToScene4"/>
-
-
+    <Label fx:id="welcomeText" text="Welkom bij AIsistify" style="-fx-font-size: 24px; -fx-text-fill: darkblue;"/>
+    <TextField fx:id="textField" promptText="Voer je naam in" style="-fx-background-color: white;"/>
+    <TextField fx:id="textField3" promptText="Voer je email in" style="-fx-background-color: white;"/>
+    <TextField fx:id="textField4" promptText="Voer je gebruikersnaam in" style="-fx-background-color: white;"/>
+    <PasswordField fx:id="passwordField" promptText="Voer wachtwoord in" style="-fx-background-color: white;"/>
+    <Button fx:id="loginButton" text="Account aanmaken" onAction="#switchToScene4"
+            style="-fx-background-color: lightblue; -fx-text-fill: white;"/>
 
 </VBox>

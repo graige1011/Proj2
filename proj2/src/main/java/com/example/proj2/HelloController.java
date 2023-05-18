@@ -49,8 +49,13 @@ public class HelloController {
 
 
     @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
+    protected void switchToScene5(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("scene5.fxml"));
+        Parent scene2Root = fxmlLoader.load();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(scene2Root, 800, 600));
+        stage.setTitle("AIsistify");
+        stage.show();
     }
 
     @FXML
