@@ -31,7 +31,7 @@
 
         <Label text="Gebruikersnaam:" style="-fx-text-fill: lightblue;"
                GridPane.rowIndex="1" GridPane.columnIndex="0"/>
-        <TextField fx:id="textField" promptText="Voer gebruikersnaam in" GridPane.rowIndex="1" GridPane.columnIndex="1"
+        <TextField fx:id="usernameField" promptText="Voer gebruikersnaam in" GridPane.rowIndex="1" GridPane.columnIndex="1"
                    style="-fx-background-color: white;"/>
 
         <Label text="Wachtwoord:" style="-fx-text-fill: lightblue;"
