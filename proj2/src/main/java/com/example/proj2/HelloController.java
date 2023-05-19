@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -46,8 +47,31 @@ public class HelloController {
     }
 
 
+    @FXML
+    public void handleLogin(ActionEvent event) throws IOException {
+        String username = usernameField.getText();
+        String password = passwordField.getText();
 
-
+        if (validateLogin(username, password)) {
+            switchToScene5(event);
+        } else {
+            // Display an error message or perform appropriate action for failed login
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Login Failed");
+            alert.setHeaderText(null);
+            alert.setContentText("Invalid username or password");
+            alert.showAndWait();
+        }
+    }
+    // Method to validate login credentials
+    private boolean validateLogin(String username, String password) {
+        for (User user : users) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
+    }
     @FXML
     protected void switchToScene5(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("scene5.fxml"));
@@ -62,6 +86,8 @@ public class HelloController {
     public void switchToScene2(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("scene2.fxml"));
         Parent scene2Root = fxmlLoader.load();
+        Scene2Controller scene2Controller = fxmlLoader.getController(); // Get the controller of the scene2.fxml
+        scene2Controller.setUsers(users); // Pass the users ArrayList to the Scene2Controller
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(scene2Root, 800, 600));
         stage.setTitle("AIsistify");
@@ -77,28 +103,9 @@ public class HelloController {
         stage.setTitle("AIsistify");
         stage.show();
     }
-
-    @FXML
-    public void handleLogin(ActionEvent event) throws IOException {
-        String username = usernameField.getText();
-        String password = passwordField.getText();
-
-        if (validateLogin(username, password)) {
-            switchToScene2(event);
-        } else {
-            // Display an error message or perform appropriate action for failed login
-        }
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
-    // Method to validate login credentials
-    private boolean validateLogin(String username, String password) {
-        for (User user : users) {
-            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    }
+}
 

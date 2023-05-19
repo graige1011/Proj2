@@ -39,7 +39,7 @@
         <PasswordField fx:id="passwordField" promptText="Voer wachtwoord in" GridPane.rowIndex="2" GridPane.columnIndex="1"
                        style="-fx-background-color: white;"/>
 
-        <Button fx:id="loginButton" text="Log in" onAction="#switchToScene5" GridPane.rowIndex="3" GridPane.columnSpan="2"
+        <Button fx:id="loginButton" text="Log in" onAction="#handleLogin" GridPane.rowIndex="3" GridPane.columnSpan="2"
                 style="-fx-background-color: lightblue; -fx-text-fill: white;"/>
 
         <Button fx:id="createAccountButton" text="Nieuw Account Aanmaken" onAction="#switchToScene2" GridPane.rowIndex="4" GridPane.columnSpan="2"

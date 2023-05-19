@@ -17,7 +17,7 @@
     <TextField fx:id="textField3" promptText="Voer je email in" style="-fx-background-color: white;"/>
     <TextField fx:id="textField4" promptText="Voer je gebruikersnaam in" style="-fx-background-color: white;"/>
     <PasswordField fx:id="passwordField" promptText="Voer wachtwoord in" style="-fx-background-color: white;"/>
-    <Button fx:id="loginButton" text="Account aanmaken" onAction="#switchToScene4"
+    <Button fx:id="loginButton" text="Account aanmaken" onAction="#createAccount"
             style="-fx-background-color: lightblue; -fx-text-fill: white;"/>
 
 </VBox>
