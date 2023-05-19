@@ -22,8 +22,7 @@
 
     <GridPane alignment="CENTER" vgap="20.0">
         <columnConstraints>
-            <ColumnConstraints percentWidth="30"/>
-            <ColumnConstraints percentWidth="70"/>
+            <ColumnConstraints />
         </columnConstraints>
         <rowConstraints>
             <RowConstraints/>
