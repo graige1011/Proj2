@@ -18,6 +18,6 @@
     <TextField fx:id="textField4" promptText="Voer je gebruikersnaam in" style="-fx-background-color: white;"/>
     <PasswordField fx:id="passwordField" promptText="Voer wachtwoord in" style="-fx-background-color: white;"/>
     <Button fx:id="loginButton" text="Account aanmaken" onAction="#createAccount"
-            style="-fx-background-color: lightblue; -fx-text-fill: white;"/>
+            styleClass = "hover-button" stylesheets="@styles.css"/>
 
 </VBox>

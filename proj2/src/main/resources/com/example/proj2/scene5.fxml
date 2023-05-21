@@ -31,6 +31,6 @@
     </VBox>
     <HBox alignment="BOTTOM_CENTER">
         <TextField fx:id="textBox" promptText="Enter text" style="-fx-background-color: white;"/>
-        <Button fx:id="enterButton" text="Enter" style="-fx-background-color: lightblue; -fx-text-fill: white;"/>
+        <Button fx:id="enterButton" text="Enter" styleClass = "hover-button" stylesheets="@styles.css"/>
     </HBox>
 </VBox>

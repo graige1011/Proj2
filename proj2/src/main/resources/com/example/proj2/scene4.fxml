@@ -9,6 +9,6 @@
     <Label text="Succesvol een nieuw account aangemaakt. Wil je inloggen?"
            style="-fx-font-size: 18px; -fx-text-fill: darkblue;"/>
     <Button text="Terug naar Inloggen" onAction="#switchToScene1"
-            style="-fx-background-color: lightblue; -fx-text-fill: white;"/>
+            styleClass = "hover-button" stylesheets="@styles.css"/>
 
 </VBox>

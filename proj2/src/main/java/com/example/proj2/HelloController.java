@@ -41,7 +41,7 @@ public class HelloController {
     public HelloController() {
         users = new ArrayList<>();
         // Add some dummy user data for testing
-        users.add(new User("john", "password123"));
+        users.add(new User("john", "1"));
         users.add(new User("jane", "qwerty"));
         users.add(new User("admin", "admin123"));
     }
