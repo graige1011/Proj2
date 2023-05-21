@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.proj2.SettingsController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <Button text="Light Mode" onAction="#changeToLightMode" layoutX="50" layoutY="50" styleClass="settings-button" />
+    <Button text="Dark Mode" onAction="#changeToDarkMode" layoutX="150" layoutY="50" styleClass="settings-button" />
+    <Button text="Change Language" onAction="#changeLanguage" layoutX="250" layoutY="50" styleClass="settings-button" />
+    <Button text="Return to chat" onAction="#switchToScene5" layoutX="350" layoutY="50" styleClass="settings-button" />
+    <Button text="logout" onAction="#logout" layoutX="450" layoutY="50" styleClass="settings-button" />
+
+</AnchorPane>

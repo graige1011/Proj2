@@ -2,9 +2,14 @@ package com.example.proj2;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -27,6 +32,15 @@ public class Scene5Controller {
 
     private int messageCounter = 1;
 
+    @FXML
+    public void openSettings(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("settings.fxml")); //hier moet de settings page komen
+        Parent scene2Root = fxmlLoader.load();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(scene2Root, 800, 600));
+        stage.setTitle("AIsistify");
+        stage.show();
+    }
     @FXML
     private void enter(ActionEvent event) throws IOException {
         String message = textBox.getText().trim();
