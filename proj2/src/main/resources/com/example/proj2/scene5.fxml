@@ -14,23 +14,16 @@
     </padding>
 
     <VBox alignment="TOP_RIGHT">
-
-
-
-
-
-
-
-
-                <VBox>
-                <Label text="Chat History" style="-fx-font-weight: bold;"/>
-                <Label text="Message 1"/>
-                <Label text="Message 2"/>
-                <Label text="Message 3"/>
-                </VBox>
+        <VBox>
+            <Label text="Chat History" style="-fx-font-weight: bold;"/>
+            <Label fx:id="label1" text="Message 1"/>
+            <Label fx:id="label2" text="Message 2"/>
+            <Label fx:id="label3" text="Message 3"/>
+        </VBox>
     </VBox>
+
     <HBox alignment="BOTTOM_CENTER">
         <TextField fx:id="textBox" promptText="Enter text" style="-fx-background-color: white;"/>
-        <Button fx:id="enterButton" text="Enter" styleClass = "hover-button" stylesheets="@styles.css"/>
+        <Button fx:id="enterButton" text="Enter" styleClass="hover-button" stylesheets="@styles.css" onAction="#enter"/>
     </HBox>
 </VBox>
