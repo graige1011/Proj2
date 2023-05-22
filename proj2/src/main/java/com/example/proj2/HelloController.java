@@ -36,7 +36,12 @@ public class HelloController {
     @FXML
     private TextField passwordField;
 
+
+
     private List<User> users;
+    @FXML
+    private Button toggleDarkModeButton;
+    private boolean darkMode = false;
 
     public HelloController() {
         users = new ArrayList<>();
@@ -45,6 +50,21 @@ public class HelloController {
         users.add(new User("jane", "qwerty"));
         users.add(new User("admin", "admin123"));
     }
+    @FXML
+    public void toggleDarkMode(ActionEvent event) {
+        darkMode = !darkMode; // Toggle dark mode value
+
+        // Apply dark mode styles to the current scene
+        Node sourceNode = (Node) event.getSource();
+        Scene scene = sourceNode.getScene();
+
+        if (darkMode) {
+            scene.getStylesheets().add(getClass().getResource("dark.css").toExternalForm());
+        } else {
+            scene.getStylesheets().remove(getClass().getResource("dark.css").toExternalForm());
+        }
+    }
+
 
 
     @FXML
@@ -76,6 +96,8 @@ public class HelloController {
     protected void switchToScene5(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("scene5.fxml"));
         Parent scene2Root = fxmlLoader.load();
+        Scene5Controller scene5Controller = fxmlLoader.getController();
+        scene5Controller.setUsers((ArrayList<User>) users); // Pass the users ArrayList to the Scene5Controller
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(new Scene(scene2Root, 800, 600));
         stage.setTitle("AIsistify");
@@ -93,6 +115,7 @@ public class HelloController {
         stage.setTitle("AIsistify");
         stage.show();
     }
+
 
     @FXML
     public void switchToScene3(ActionEvent event) throws IOException {

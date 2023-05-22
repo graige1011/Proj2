@@ -1,0 +1,27 @@
+/* dark.css */
+
+/* Set background color */
+.root {
+    -fx-background-color: #121212;
+}
+
+/* Set text color */
+.label {
+    -fx-text-fill: #FFFFFF;
+}
+
+/* Set button styles */
+.button {
+    -fx-background-color: #1E88E5; /* Dark Blue */
+    -fx-text-fill: #FFFFFF; /* White */
+}
+
+.hover-button {
+  -fx-background-color: darkblue;
+  -fx-text-fill: white;
+}
+
+.hover-button:hover {
+    -fx-background-color: rgb(0, 17, 125);
+    -fx-text-fill: white;
+}

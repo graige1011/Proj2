@@ -25,5 +25,6 @@
     <HBox alignment="BOTTOM_CENTER">
         <TextField fx:id="textBox" promptText="Enter text" style="-fx-background-color: white;"/>
         <Button fx:id="enterButton" text="Enter" styleClass="hover-button" stylesheets="@styles.css" onAction="#enter"/>
+<!--    needs to be fixed    <Button fx:id="logoutButton" text="Log out" onAction="#handleLogout" />-->
     </HBox>
 </VBox>
