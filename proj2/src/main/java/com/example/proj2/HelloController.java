@@ -45,10 +45,10 @@ public class HelloController {
 
     public HelloController() {
         users = new ArrayList<>();
-        // Add some dummy user data for testing
-        users.add(new User("john", "1"));
-        users.add(new User("jane", "qwerty"));
-        users.add(new User("admin", "admin123"));
+        // voeg dummy users toe
+        users.add(new User("humberto", "1"));
+        users.add(new User("keanu", "2"));
+        users.add(new User("graige", "3"));
     }
     @FXML
     public void toggleDarkMode(ActionEvent event) {

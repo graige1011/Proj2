@@ -1,9 +1,11 @@
 .hover-button {
   -fx-background-color: lightblue;
   -fx-text-fill: white;
+  -fx-cursor: hand;
 }
 
 .hover-button:hover {
     -fx-background-color: rgb(2, 13, 186);
     -fx-text-fill: white;
+    -fx-cursor: hand;
 }
