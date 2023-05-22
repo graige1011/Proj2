@@ -34,6 +34,15 @@ public class Scene5Controller {
     private int messageCounter = 1;
 
     @FXML
+    public void openSettings(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("settings.fxml")); //hier moet de settings page komen
+        Parent scene2Root = fxmlLoader.load();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(scene2Root, 800, 600));
+        stage.setTitle("AIsistify");
+        stage.show();
+    }
+    @FXML
     private void enter(ActionEvent event) throws IOException {
         String message = textBox.getText().trim();
         if (!message.isEmpty()) {
