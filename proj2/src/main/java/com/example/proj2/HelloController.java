@@ -124,7 +124,7 @@ public class HelloController {
         }
         return false;
     }
-    public void switchToHelloScene(ActionEvent event) {
+    public  void switchToHelloScene(ActionEvent event) {
         HelloController helloController = new HelloController();
         Scene helloScene = helloController.createHelloScene();
 
