@@ -1,6 +1,6 @@
     package com.example.proj2;
 
-    import com.example.proj2.*;
+    import com.example.proj2.login.User;
     import javafx.event.ActionEvent;
     import javafx.geometry.Insets;
     import javafx.geometry.Pos;
@@ -13,7 +13,6 @@
     import javafx.scene.layout.*;
     import javafx.stage.Stage;
 
-    import java.io.IOException;
     import java.util.ArrayList;
     import java.util.List;
 

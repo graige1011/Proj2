@@ -1,6 +1,6 @@
 package com.example.proj2;
 
-import com.example.proj2.User;
+import com.example.proj2.login.User;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -10,7 +10,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.List;
 
 public class Scene4Controller {

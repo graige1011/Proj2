@@ -1,6 +1,7 @@
-package com.example.proj2;
-
-import com.example.proj2.User;
+import com.example.proj2.SettingsController;
+import com.example.proj2.chatMessage.ChatHistoryManager;
+import com.example.proj2.chatMessage.ChatMessageFactory;
+import com.example.proj2.chatMessage.chatMessage;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -14,34 +15,26 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Scene5Controller {
     private TextField textBox;
     private Button enterButton;
-    private Label label1;
-    private Label label2;
-    private Label label3;
-    private int messageCounter = 1;
-    private ArrayList<User> users;
+    private Label chatHistoryLabel;
+    private VBox chatHistoryContainer;
+    private ChatMessageFactory messageFactory;
+    private ChatHistoryManager historyManager;
 
     public VBox createScene5UI() {
         VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
         root.setPadding(new Insets(20));
 
-        VBox chatHistory = new VBox();
-        chatHistory.setAlignment(Pos.TOP_RIGHT);
+        chatHistoryContainer = new VBox();
+        chatHistoryContainer.setAlignment(Pos.TOP_RIGHT);
 
-        Label chatHistoryLabel = new Label("Chat History");
+        chatHistoryLabel = new Label("Chat History");
         chatHistoryLabel.setStyle("-fx-font-weight: bold;");
-
-        label1 = new Label("Message 1");
-        label2 = new Label("Message 2");
-        label3 = new Label("Message 3");
-
-        chatHistory.getChildren().addAll(chatHistoryLabel, label1, label2, label3);
 
         HBox settingsBox = new HBox();
         settingsBox.setAlignment(Pos.BOTTOM_LEFT);
@@ -63,14 +56,9 @@ public class Scene5Controller {
         enterButton.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         enterButton.setOnAction(this::enter);
 
-        // Logout button
-        // Uncomment the following lines once the logoutButton is added to the FXML
-//        Button logoutButton = new Button("Log out");
-//        logoutButton.setOnAction(this::handleLogout);
-
         inputBox.getChildren().addAll(textBox, enterButton);
 
-        root.getChildren().addAll(chatHistory, settingsBox, inputBox);
+        root.getChildren().addAll(chatHistoryContainer, settingsBox, inputBox);
 
         return root;
     }
@@ -87,41 +75,31 @@ public class Scene5Controller {
     public void enter(ActionEvent event) {
         String message = textBox.getText().trim();
         if (!message.isEmpty()) {
-            displayMessage(message);
+            // Create chat message using the factory
+            chatMessage chatMessage1 = messageFactory.createMessage(ChatMessageFactory.MessageType.TEXT, message);
+
+            // Add chat message to the history manager
+            historyManager.addMessage(chatMessage1);
+
+            displayMessage(chatMessage1);
             textBox.clear();
         }
     }
 
-    private void displayMessage(String message) {
-        switch (messageCounter) {
-            case 1:
-                label1.setText(message);
-                break;
-            case 2:
-                label2.setText(message);
-                break;
-            case 3:
-                label3.setText(message);
-                break;
-            default:
-                shiftMessages();
-                label3.setText(message);
-                break;
-        }
-        messageCounter++;
+    private void displayMessage(ChatMessage message) {
+        Label messageLabel = new Label(message.getContent());
+        chatHistoryContainer.getChildren().add(messageLabel);
     }
 
-    private void shiftMessages() {
-        label1.setText(label2.getText());
-        label2.setText(label3.getText());
-        label3.setText("");
+    public void setMessageFactory(ChatMessageFactory messageFactory) {
+        this.messageFactory = messageFactory;
     }
 
-    public void setUsers(ArrayList<User> users) {
-        this.users = users;
+    public void setHistoryManager(ChatHistoryManager historyManager) {
+        this.historyManager = historyManager;
     }
 
-    public void handleLogout(ActionEvent event) {
-        //switch to hellocontroller
+    public void setChatHistoryLabel(String label) {
+        chatHistoryLabel.setText(label);
     }
 }
