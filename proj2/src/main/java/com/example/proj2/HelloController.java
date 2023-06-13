@@ -24,12 +24,12 @@
         private TextField usernameField;
         private PasswordField passwordField;
 
+        private UserManager usersManager;
+
         public HelloController() {
-            users = new ArrayList<>();
-            // Add test users
-            users.add(new User("humberto", "1"));
-            users.add(new User("keanu", "2"));
-            users.add(new User("graige", "3"));
+            usersManager = new UserManager();
+            users = usersManager.getUsers();
+
         }
 
         public Scene createHelloScene() {
@@ -106,7 +106,7 @@
             String username = usernameField.getText();
             String password = passwordField.getText();
 
-            if (validateLogin(username, password)) {
+            if (usersManager.validateLogin(username, password)) {
                 switchToScene5(event);
             } else {
                 // Display an error message or perform appropriate action for failed login
@@ -118,22 +118,6 @@
             }
         }
 
-        private boolean validateLogin(String username, String password) {
-            for (User user : users) {
-                if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        public User zoekGebruikerOpGebruikersnaam(String gebruikersnaam) {
-            for (User user : users) {
-                if (user.getUsername().equals(gebruikersnaam)) {
-                    return user;
-                }
-            }
-            return null;
-        }
         public  void switchToHelloScene(ActionEvent event) {
             HelloController helloController = new HelloController();
             Scene helloScene = helloController.createHelloScene();

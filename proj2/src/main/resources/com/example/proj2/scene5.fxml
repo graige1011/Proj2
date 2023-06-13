@@ -30,3 +30,4 @@
 <!--    needs to be fixed    <Button fx:id="logoutButton" text="Log out" onAction="#handleLogout" />-->
     </HBox>
 </VBox>
+

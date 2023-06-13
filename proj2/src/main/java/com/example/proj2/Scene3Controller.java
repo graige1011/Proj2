@@ -1,6 +1,7 @@
 package com.example.proj2;
 
 import com.example.proj2.login.User;
+import com.example.proj2.login.UserManager;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -10,10 +11,17 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Scene3Controller {
+    private UserManager userManager;
+
     private TextField textField;
     private PasswordField passwordField;
     private PasswordField passwordField2;
     private HelloController helloController;
+
+    public Scene3Controller() {
+        userManager = new UserManager();
+    }
+
 
     public VBox createScene3UI() {
         VBox root = new VBox();
@@ -76,7 +84,7 @@ public class Scene3Controller {
         }
 
         // Find the user based on the provided username
-        User gebruiker = helloController.zoekGebruikerOpGebruikersnaam(gebruikersnaam);
+        User gebruiker = userManager.zoekGebruikerOpGebruikersnaam(gebruikersnaam);
 
         // Check if the user exists
         if (gebruiker == null) {
