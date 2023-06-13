@@ -1,12 +1,13 @@
 package com.example.proj2.chatMessage;
 
 public class ChatMessageFactory {
+    private ChatMessageFactory messageFactory;
     public enum MessageType {
         TEXT,
         IMAGE,
     }
 
-    public chatMessage createMessage(MessageType messageType, String messageContent) {
+    public ChatMessage createMessage(MessageType messageType, String messageContent) {
         switch (messageType) {
             case TEXT:
                 return new TextMessage(messageContent);
@@ -16,6 +17,7 @@ public class ChatMessageFactory {
                 throw new IllegalArgumentException("Invalid message type: " + messageType);
         }
     }
+
 }
 
 // how to call the chat message in my other classes..

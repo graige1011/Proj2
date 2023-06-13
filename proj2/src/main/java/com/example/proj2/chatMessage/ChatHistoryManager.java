@@ -9,8 +9,11 @@ import java.util.List;
 public class ChatHistoryManager implements ChatHistory {
     private VBox chatHistoryContainer;
     private final int maxMessages;
-    private List<chatMessage> messages;
+    private List<ChatMessage> messages;
     private ChatMessageFactory messageFactory;
+
+    private ChatHistoryManager historyManager;
+
 
     public ChatHistoryManager(int maxMessages) {
         this.maxMessages = maxMessages;
@@ -21,8 +24,8 @@ public class ChatHistoryManager implements ChatHistory {
     }
 
 
-    public void addMessage(ChatMessageFactory.MessageType messageType, String messageContent) {
-        chatMessage message = messageFactory.createMessage(messageType, messageContent);
+    public void addMessage(ChatMessage message) {
+        // ChatMessage message = messageFactory.createMessage(messageType, messageContent);
         messages.add(message);
         if (messages.size() > maxMessages) {
             messages.remove(0);
@@ -32,8 +35,8 @@ public class ChatHistoryManager implements ChatHistory {
 
     private void updateChatHistoryUI() {
         chatHistoryContainer.getChildren().clear();
-        for (String message : messages) {
-            Label label = new Label(message); // Use the message content directly
+        for (ChatMessage message : messages) {
+            Label label = new Label(message.getContent()); // Use the message content directly
             chatHistoryContainer.getChildren().add(label);
         }
     }
@@ -41,4 +44,6 @@ public class ChatHistoryManager implements ChatHistory {
     public VBox getChatHistoryUI() {
         return chatHistoryContainer;
     }
+
+
 }

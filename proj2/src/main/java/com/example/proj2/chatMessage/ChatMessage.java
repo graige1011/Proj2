@@ -1,5 +1,7 @@
 package com.example.proj2.chatMessage;
 
-public interface chatMessage {
+public interface ChatMessage {
     void display();
+
+    String getContent();
 }

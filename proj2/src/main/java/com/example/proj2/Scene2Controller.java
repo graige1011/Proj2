@@ -1,6 +1,7 @@
 package com.example.proj2;
 
 import com.example.proj2.login.User;
+import com.example.proj2.login.UserManager;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
@@ -20,10 +21,11 @@ public class Scene2Controller {
     private TextField textField3;
     private TextField textField4;
     private PasswordField passwordField;
-    private List<User> users;
+    private UserManager userManager;
 
     public Scene2Controller() {
-        users = new ArrayList<>();
+
+        userManager = new UserManager();
     }
 
     public Parent createScene2UI() {
@@ -64,11 +66,7 @@ public class Scene2Controller {
         String username = textField4.getText();
         String password = passwordField.getText();
 
-        if (validateRegistration(username, password)) {
-            // Create a new User object and add it to the users list
-            User newUser = new User(username, password);
-            users.add(newUser);
-
+        if (userManager.validateRegistration(username, password)) {
             // Display a success message
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Registration Successful!");
@@ -96,21 +94,12 @@ public class Scene2Controller {
     }
 
     public void switchToLoginPage(ActionEvent event) throws IOException {
-         HelloController helloController1 = new HelloController();
-         helloController1.switchToHelloScene(event);
+        HelloController helloController1 = new HelloController();
+        helloController1.switchToHelloScene(event);
     }
 
-    // Method to validate registration credentials
-    private boolean validateRegistration(String username, String password) {
-        // Perform any validation checks as needed
-        // For example, check if the username is already taken
-        // You can customize this logic based on your requirements
 
-        // Here, we simply check if the username is not empty and the password is at least 4 characters long
-        return !username.isEmpty() && password.length() >= 4;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setUsers(UserManager userManager) {
+        this.userManager = userManager;
     }
 }

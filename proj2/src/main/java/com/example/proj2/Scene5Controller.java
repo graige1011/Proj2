@@ -1,8 +1,10 @@
-import com.example.proj2.SettingsController;
+package com.example.proj2;
+
 import com.example.proj2.chatMessage.ChatHistoryManager;
 import com.example.proj2.chatMessage.ChatMessageFactory;
-import com.example.proj2.chatMessage.chatMessage;
+import com.example.proj2.chatMessage.ChatMessage;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -15,16 +17,20 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
-
 public class Scene5Controller {
+
     private TextField textBox;
+
     private Button enterButton;
     private Label chatHistoryLabel;
     private VBox chatHistoryContainer;
     private ChatMessageFactory messageFactory;
     private ChatHistoryManager historyManager;
 
+//    public Scene5Controller(ChatMessageFactory messageFactory, ChatHistoryManager historyManager) {
+//        this.messageFactory = messageFactory;
+//        this.historyManager = historyManager;
+//    }
     public VBox createScene5UI() {
         VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
@@ -75,14 +81,18 @@ public class Scene5Controller {
     public void enter(ActionEvent event) {
         String message = textBox.getText().trim();
         if (!message.isEmpty()) {
-            // Create chat message using the factory
-            chatMessage chatMessage1 = messageFactory.createMessage(ChatMessageFactory.MessageType.TEXT, message);
+            if (messageFactory != null && historyManager != null) {
+                // Create chat message using the factory
+                ChatMessage chat1 = messageFactory.createMessage(ChatMessageFactory.MessageType.TEXT, message);
 
-            // Add chat message to the history manager
-            historyManager.addMessage(chatMessage1);
+                // Add chat message to the history manager
+                historyManager.addMessage(chat1);
 
-            displayMessage(chatMessage1);
-            textBox.clear();
+                displayMessage(chat1);
+                textBox.clear();
+            } else {
+                System.out.println("ChatMessageFactory or ChatHistoryManager is null. Please set them before entering a message.");
+            }
         }
     }
 
@@ -91,15 +101,16 @@ public class Scene5Controller {
         chatHistoryContainer.getChildren().add(messageLabel);
     }
 
-    public void setMessageFactory(ChatMessageFactory messageFactory) {
-        this.messageFactory = messageFactory;
+    public void setChatHistoryLabel(String label) {
+        chatHistoryLabel.setText(label);
     }
 
     public void setHistoryManager(ChatHistoryManager historyManager) {
         this.historyManager = historyManager;
     }
-
-    public void setChatHistoryLabel(String label) {
-        chatHistoryLabel.setText(label);
+    public void setMessageFactory(ChatMessageFactory messageFactory) {
+        this.messageFactory = messageFactory;
     }
+
+
 }
