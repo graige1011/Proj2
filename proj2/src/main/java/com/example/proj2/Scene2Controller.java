@@ -1,6 +1,6 @@
 package com.example.proj2;
 
-import com.example.proj2.login.User;
+import com.example.proj2.HelloController;
 import com.example.proj2.login.UserManager;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -13,8 +13,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Scene2Controller {
     private TextField textField;

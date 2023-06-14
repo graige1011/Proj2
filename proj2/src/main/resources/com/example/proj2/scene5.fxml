@@ -1,33 +1,33 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<!--<?xml version="1.0" encoding="UTF-8"?>-->
+<!--<?import javafx.geometry.Insets?>-->
+<!--<?import javafx.scene.control.Button?>-->
+<!--<?import javafx.scene.control.TextField?>-->
+<!--<?import javafx.scene.control.Label?>-->
+<!--<?import javafx.scene.layout.HBox?>-->
+<!--<?import javafx.scene.layout.VBox?>-->
 
-<VBox alignment="CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.proj2.GUI.Scene5Controller">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
+<!--<VBox alignment="CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.proj2.Scene5Controller">-->
+<!--    <padding>-->
+<!--        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>-->
+<!--    </padding>-->
 
-    <VBox alignment="TOP_RIGHT">
-        <VBox>
-            <Label text="Chat History" style="-fx-font-weight: bold;"/>
-            <Label fx:id="label1" text="Message 1"/>
-            <Label fx:id="label2" text="Message 2"/>
-            <Label fx:id="label3" text="Message 3"/>
-        </VBox>
-    </VBox>
+<!--    <VBox alignment="TOP_RIGHT">-->
+<!--        <VBox>-->
+<!--            <Label text="Chat History" style="-fx-font-weight: bold;"/>-->
+<!--            <Label fx:id="label1" text="Message 1"/>-->
+<!--            <Label fx:id="label2" text="Message 2"/>-->
+<!--            <Label fx:id="label3" text="Message 3"/>-->
+<!--        </VBox>-->
+<!--    </VBox>-->
 
-    <HBox alignment="BOTTOM_LEFT">
-        <Button text="Settings" onAction="#openSettings"/>
-    </HBox>
+<!--    <HBox alignment="BOTTOM_LEFT">-->
+<!--        <Button text="Settings" onAction="#openSettings"/>-->
+<!--    </HBox>-->
 
-    <HBox alignment="BOTTOM_CENTER">
-        <TextField fx:id="textBox" promptText="Enter text" style="-fx-pref-height: 60; -fx-font-size: 14px; -fx-background-color: white;"/>
-        <Button fx:id="enterButton" text="Enter" styleClass="hover-button" stylesheets="@styles.css" onAction="#enter"/>
-<!--    needs to be fixed    <Button fx:id="logoutButton" text="Log out" onAction="#handleLogout" />-->
-    </HBox>
-</VBox>
+<!--    <HBox alignment="BOTTOM_CENTER">-->
+<!--        <TextField fx:id="textBox" promptText="Enter text" style="-fx-pref-height: 60; -fx-font-size: 14px; -fx-background-color: white;"/>-->
+<!--        <Button fx:id="enterButton" text="Enter" styleClass="hover-button" stylesheets="@styles.css" onAction="#enter"/>-->
+<!--&lt;!&ndash;    needs to be fixed    <Button fx:id="logoutButton" text="Log out" onAction="#handleLogout" />&ndash;&gt;-->
+<!--    </HBox>-->
+<!--</VBox>-->
 

@@ -14,7 +14,7 @@
 <?import java.net.URL?>
 <?import javafx.scene.layout.StackPane?>
 <VBox alignment="CENTER" spacing="40.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.example.proj2.GUI.HelloController"
+      fx:controller="com.example.proj2.HelloController"
       style="-fx-background-color: white;">
 
     <padding>

@@ -1,5 +1,6 @@
 package com.example.proj2;
 
+import com.example.proj2.HelloController;
 import com.example.proj2.login.User;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;

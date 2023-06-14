@@ -1,4 +1,4 @@
-    package com.example.proj2.GUI;
+    package com.example.proj2;
 
     import com.example.proj2.chatMessage.ChatHistoryManager;
     import com.example.proj2.chatMessage.ChatMessageFactory;
@@ -94,6 +94,7 @@
 
 
             root.getChildren().add(gridPane);
+
 
             Scene scene = new Scene(root, 800, 600);
             scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());

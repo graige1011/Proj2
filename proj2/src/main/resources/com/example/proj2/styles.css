@@ -1,7 +1,7 @@
 .hover-button {
-  -fx-background-color: lightblue;
-  -fx-text-fill: white;
-  -fx-cursor: hand;
+    -fx-background-color: lightblue;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
 }
 
 .hover-button:hover {
@@ -9,59 +9,61 @@
     -fx-text-fill: white;
     -fx-cursor: hand;
 }
-.app {
-  -fx-background-color: #343541;
+
+.root {
+    -fx-background-color: #343541;
+    -fx-max-width: Infinity;
+    -fx-max-height: Infinity;
 }
 
-.chat_container {
-  -fx-background-color: #343541;
-  -fx-flex-grow: 1;
-  -fx-max-height: Infinity;
-  -fx-padding: 0 15px 20px 15px;
-  -fx-gap: 10px;
+.chat_box {
+    -fx-background-color: #343541;
+    -fx-flex-grow: 1;
+    -fx-max-height: Infinity;
+    -fx-alignment: bottom_center;
+    -fx-padding: 0 15px 20px 15px;
+    -fx-spacing: 10px;
+}
+
+.split-pane {
+    -fx-background-color: #343541;
+}
+
+.chat_history_menu {
+    -fx-background-color: #343541;
 }
 
 .wrapper {
-  -fx-padding: 15px;
+    -fx-padding: 15px;
 }
 
 .chat {
-  -fx-padding: 10px;
-  -fx-gap: 10px;
-  -fx-alignment: top-left;
-}
-
-.profile {
-  -fx-background-color: #5436DA;
-  -fx-border-radius: 5px;
-  -fx-pref-width: 36px;
-  -fx-pref-height: 36px;
+    -fx-padding: 10px;
+    -fx-gap: 10px;
+    -fx-alignment: bottom_right;
 }
 
 .settings_button {
-  -fx-background-color: transparent;
-  -fx-text-fill: white;
-  -fx-border-color: transparent;
-}
-
-.form {
-  -fx-padding: 10px;
-  -fx-background-color: #40414F;
-  -fx-gap: 10px;
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-border-color: transparent;
 }
 
 .input {
-  -fx-prompt-text-fill: #fff;
-  -fx-background-color: transparent;
-  -fx-border-color: white;
-  -fx-border-radius: 5px;
+    -fx-prompt-text-fill: #fff;
+    -fx-background-color: transparent;
+    -fx-border-color: white;
+    -fx-border-radius: 5px;
+    -fx-min-height: 40px;
+    -fx-pref-height: 40px;
+    -fx-max-height: 40px;
+    -fx-min-width: 300px;
+    -fx-pref-width: 300px;
+    -fx-max-width: 300px;
 }
 
-.send_button {
-  -fx-background-color: transparent;
-  -fx-border-color: transparent;
-}
-
-.send_button:hover {
-  -fx-background-color: #10a37f;
+.header {
+    -fx-font-size: 36px;
+    -fx-text-fill: darkblue;
+    -fx-font-weight: bold;
 }

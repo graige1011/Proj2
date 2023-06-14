@@ -4,14 +4,11 @@ import com.example.proj2.HelloController;
 import com.example.proj2.Scene5Controller;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class SettingsController {
     public AnchorPane createSettingsUI() {
