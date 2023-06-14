@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.proj2.Scene5Controller">
+<VBox alignment="CENTER" xmlns:fx="http://javafx.com/fxml" fx:controller="com.example.proj2.GUI.Scene5Controller">
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
@@ -25,7 +25,7 @@
     </HBox>
 
     <HBox alignment="BOTTOM_CENTER">
-        <TextField fx:id="textBox" promptText="Enter text" style="-fx-background-color: white;"/>
+        <TextField fx:id="textBox" promptText="Enter text" style="-fx-pref-height: 60; -fx-font-size: 14px; -fx-background-color: white;"/>
         <Button fx:id="enterButton" text="Enter" styleClass="hover-button" stylesheets="@styles.css" onAction="#enter"/>
 <!--    needs to be fixed    <Button fx:id="logoutButton" text="Log out" onAction="#handleLogout" />-->
     </HBox>

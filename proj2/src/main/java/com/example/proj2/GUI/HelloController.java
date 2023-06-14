@@ -1,4 +1,4 @@
-    package com.example.proj2;
+    package com.example.proj2.GUI;
 
     import com.example.proj2.chatMessage.ChatHistoryManager;
     import com.example.proj2.chatMessage.ChatMessageFactory;
@@ -16,7 +16,6 @@
     import javafx.scene.layout.*;
     import javafx.stage.Stage;
 
-    import java.util.ArrayList;
     import java.util.List;
 
     public class HelloController {

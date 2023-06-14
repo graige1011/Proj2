@@ -9,3 +9,59 @@
     -fx-text-fill: white;
     -fx-cursor: hand;
 }
+.app {
+  -fx-background-color: #343541;
+}
+
+.chat_container {
+  -fx-background-color: #343541;
+  -fx-flex-grow: 1;
+  -fx-max-height: Infinity;
+  -fx-padding: 0 15px 20px 15px;
+  -fx-gap: 10px;
+}
+
+.wrapper {
+  -fx-padding: 15px;
+}
+
+.chat {
+  -fx-padding: 10px;
+  -fx-gap: 10px;
+  -fx-alignment: top-left;
+}
+
+.profile {
+  -fx-background-color: #5436DA;
+  -fx-border-radius: 5px;
+  -fx-pref-width: 36px;
+  -fx-pref-height: 36px;
+}
+
+.settings_button {
+  -fx-background-color: transparent;
+  -fx-text-fill: white;
+  -fx-border-color: transparent;
+}
+
+.form {
+  -fx-padding: 10px;
+  -fx-background-color: #40414F;
+  -fx-gap: 10px;
+}
+
+.input {
+  -fx-prompt-text-fill: #fff;
+  -fx-background-color: transparent;
+  -fx-border-color: white;
+  -fx-border-radius: 5px;
+}
+
+.send_button {
+  -fx-background-color: transparent;
+  -fx-border-color: transparent;
+}
+
+.send_button:hover {
+  -fx-background-color: #10a37f;
+}

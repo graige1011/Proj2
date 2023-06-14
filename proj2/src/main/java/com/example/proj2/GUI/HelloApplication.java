@@ -1,4 +1,4 @@
-package com.example.proj2;
+package com.example.proj2.GUI;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
