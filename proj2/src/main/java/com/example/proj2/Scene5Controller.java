@@ -1,10 +1,10 @@
 package com.example.proj2;
+import com.example.proj2.chatMessage.TextToTextChat;
+import com.example.proj2.chatMessage.TextToBooleanChat;
+import com.example.proj2.chatMessage.TextToImageChat;
 
-import com.example.proj2.chatMessage.ChatHistoryManager;
-import com.example.proj2.chatMessage.ChatMessageFactory;
-import com.example.proj2.chatMessage.ChatMessage;
+import com.example.proj2.chatMessage.*;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -13,10 +13,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Scene5Controller {
@@ -29,10 +30,12 @@ public class Scene5Controller {
     private Label placeholderLabel;
     private Label chatHistoryLabel;
     private VBox chatBox;
-    private ChatMessageFactory messageFactory;
-    private ChatHistoryManager historyManager;
+//    private ChatMessageFactory messageFactory;
+//    private ChatHistoryManager historyManager;
     private String selectedChat; // New variable to store the selected chat name
-
+    private TextToTextChat textChat; // Instance of TextToTextChat
+    private TextToImageChat imageChat; // Instance of ImageChat
+    private TextToBooleanChat booleanChat; // Instance of BooleanChat
 
 
 
@@ -78,9 +81,9 @@ public class Scene5Controller {
         chatHistoryMenu.setMaxWidth(Double.MAX_VALUE);
         chatHistoryMenu.getChildren().add(chatHistoryLabelBox);
         chatHistoryMenu.getChildren().addAll(
-                createChatHistoryButton("Chat 1"),
-                createChatHistoryButton("Chat 2"),
-                createChatHistoryButton("Chat 3")
+                createChatHistoryButton("text"),
+                createChatHistoryButton("image"),
+                createChatHistoryButton("boolean")
         );
 
 
@@ -159,19 +162,48 @@ public class Scene5Controller {
     public void enter(ActionEvent event) {
         String message = textBox.getText().trim();
         if (!message.isEmpty()) {
-            if (messageFactory != null && historyManager != null) {
-                // Create chat message using the factory
-                ChatMessage chat1 = messageFactory.createMessage(ChatMessageFactory.MessageType.TEXT, message);
-                // Get the selected chat name from the chat history menu
-                String selectedChat = getSelectedChat();
+            if (selectedChat != null) {
+                // Create chat message based on the selected chat type
+                String messageType = selectedChat.toLowerCase();
 
-                // Add chat message to the history manager
-                historyManager.addMessage(chat1, selectedChat);
+                switch (messageType) {
+                    case "text":
+                        QueryResolutionResult<String> textResolutionResult = textChat.resolve(new QueryResolutionForm<>(message));
+                        if (textResolutionResult != null) {
+                            // Handle text resolution result
+                            String response = textResolutionResult.getResultData();
+                            textChat.sendMessage(message);
+                            textChat.displayMessages(); // Call displayMessages() to update the chat box
+                        }
+                        break;
+                    case "image":
+                        QueryResolutionResult<Image> imageResolutionResult = imageChat.resolve(new QueryResolutionForm<>(message));
+                        if (imageResolutionResult != null) {
+                            // Handle image resolution result
+                            Image resolvedImage = imageResolutionResult.getResultData();
+                            imageChat.sendMessage(message);
+                            imageChat.displayMessages();
+                        }
+                        break;
+                    case "boolean":
+                        QueryResolutionResult<Boolean> booleanResolutionResult = booleanChat.resolve(new QueryResolutionForm<>(message));
+                        if (booleanResolutionResult != null) {
+                            // Handle boolean resolution result
+                            Boolean resolvedBoolean = booleanResolutionResult.getResultData();
+                            booleanChat.sendMessage(message);
+                            booleanChat.sendMessage(resolvedBoolean.toString());
+                            booleanChat.displayMessages();
+                        }
+                        break;
+                    default:
+                        // Handle unknown chat types
+                        System.out.println("Unsupported chat type: " + selectedChat);
+                        break;
+                }
 
-                displayMessage(chat1);
                 textBox.clear();
             } else {
-                System.out.println("ChatMessageFactory or ChatHistoryManager is null. Please set them before entering a message.");
+                System.out.println("SelectedChat is null. Please set it before entering a message.");
             }
         }
     }
@@ -181,32 +213,41 @@ public class Scene5Controller {
         button.setOnAction(e -> openChat(text)); // Add action to open the selected chat
         return button;
     }
-    private void openChat(String chatName) {
+    private void openChat(String chatType) {
         // Update the chat history label
-        setChatHistoryLabel(chatName);
+        setChatHistoryLabel(chatType);
 
         // Set the selected chat
-        selectedChat = chatName;
+        selectedChat = chatType;
 
         // Clear the existing messages in the chat box
         chatBox.getChildren().clear();
 
-        // Retrieve the chat messages for the selected chat from the history manager
-        List<ChatMessage> chatMessages = historyManager.getChatMessages(chatName);
+        // Retrieve the chat messages for the selected chat based on its type
+        List<String> chatMessages;
+        if (chatType.equals("Text")) {
+            chatMessages = textChat.getMessages();
+        } else if (chatType.equals("Image")) {
+            chatMessages = imageChat.getMessages();
+        } else if (chatType.equals("Boolean")) {
+            chatMessages = booleanChat.getMessages();
+        } else {
+            // Handle unknown chat names or other types of chats
+            chatMessages = Collections.emptyList();
+        }
 
         // Display the chat messages in the chat box
         if (chatMessages.isEmpty()) {
-
             chatBox.getChildren().add(placeholderLabel);
         } else {
-            for (ChatMessage message : chatMessages) {
+            for (String message : chatMessages) {
                 displayMessage(message);
             }
         }
     }
-    private void displayMessage(ChatMessage message) {
-        Label messageLabel = new Label(message.getContent());
-        chatBox.getChildren().add(messageLabel);
+    public void displayMessage(String message) {
+        Label messageLabel = new Label(message);
+        chatBox.getChildren().add(messageLabel); // Add the message label to the chat box
         if (chatBox.getChildren().contains(placeholderLabel)) {
             chatBox.getChildren().remove(placeholderLabel);
         }
@@ -216,17 +257,29 @@ public class Scene5Controller {
         chatHistoryLabel.setText(label);
     }
 
-
-    public void setHistoryManager(ChatHistoryManager historyManager) {
-        this.historyManager = historyManager;
-    }
-    public void setMessageFactory(ChatMessageFactory messageFactory) {
-        this.messageFactory = messageFactory;
-    }
-    private String getSelectedChat() {
-        return selectedChat;
+    public void setTextChat(TextToTextChat textChat) {
+        this.textChat = textChat;
     }
 
+    public void setTextToBooleanChat(TextToBooleanChat booleanChat) {
+        this.booleanChat = booleanChat;
+    }
 
+    public void setTextToImageChat(TextToImageChat imageChat) {
+        this.imageChat = imageChat;
+    }
+
+
+//    public void setHistoryManager(ChatHistoryManager historyManager) {
+//        this.historyManager = historyManager;
+//    }
+//    public void setMessageFactory(ChatMessageFactory messageFactory) {
+//        this.messageFactory = messageFactory;
+//    }
+//    private String getSelectedChat() {
+//        return selectedChat;
+//    }
+//
+//
 
 }

@@ -1,7 +1,6 @@
     package com.example.proj2;
 
-    import com.example.proj2.chatMessage.ChatHistoryManager;
-    import com.example.proj2.chatMessage.ChatMessageFactory;
+    import com.example.proj2.chatMessage.*;
     import com.example.proj2.login.User;
     import com.example.proj2.login.UserManager;
     import javafx.event.ActionEvent;
@@ -163,11 +162,16 @@
 
         public void switchToScene5(ActionEvent event) {
             // Create the dependencies
-            ChatMessageFactory messageFactory = new ChatMessageFactory();
-            ChatHistoryManager historyManager = new ChatHistoryManager(200);
+            TextToTextChat textToTextChat = new TextToTextChat();
+            TextToBooleanChat textToBooleanChat = new TextToBooleanChat();
+            TextToImageChat textToImageChat = new TextToImageChat();
             Scene5Controller scene5Controller = new Scene5Controller();
-            scene5Controller.setMessageFactory(messageFactory);
-            scene5Controller.setHistoryManager(historyManager);
+            // Set the Scene5Controller instance in TextToTextChat
+            textToTextChat.setScene5Controller(scene5Controller);
+            scene5Controller.setTextChat(textToTextChat);
+            scene5Controller.setTextToBooleanChat(textToBooleanChat);
+            scene5Controller.setTextToImageChat(textToImageChat);
+
 
             VBox scene5Root = scene5Controller.createScene5UI();
 
