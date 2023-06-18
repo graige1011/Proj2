@@ -3,15 +3,19 @@ package com.example.proj2.chatMessage;
 import com.example.proj2.Scene5Controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TextToTextChat implements QueryResolutionStrategy<String, String> {
     private List<String> messages = new ArrayList<>();
+    private Map<String, String> messageResponses = new HashMap<>();
     private Scene5Controller scene5Controller; // Reference to the Scene5Controller instance
 
     public void setScene5Controller(Scene5Controller scene5Controller) {
         this.scene5Controller = scene5Controller;
     }
+
     @Override
     public QueryResolutionResult<String> resolve(QueryResolutionForm<String> queryForm) {
         String queryData = queryForm.getQueryData();
@@ -22,13 +26,15 @@ public class TextToTextChat implements QueryResolutionStrategy<String, String> {
 
     @Override
     public void sendMessage(String message) {
+        String response = getResponse(message);
         messages.add(message);
+        messageResponses.put(message, response);
     }
 
     @Override
     public void displayMessages() {
         for (String message : messages) {
-            String response = getResponse(message);
+            String response = messageResponses.get(message);
 
             // Update UI elements in Scene5Controller to show the messages and responses
             scene5Controller.displayMessage(message);
@@ -39,6 +45,15 @@ public class TextToTextChat implements QueryResolutionStrategy<String, String> {
     @Override
     public List<String> getMessages() {
         return messages;
+    }
+
+    public List<String> getResponses() {
+        List<String> responses = new ArrayList<>();
+        for (String message : messages) {
+            String response = messageResponses.get(message);
+            responses.add(response);
+        }
+        return responses;
     }
 
     private String getResponse(String input) {

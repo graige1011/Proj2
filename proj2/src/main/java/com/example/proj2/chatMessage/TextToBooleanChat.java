@@ -3,7 +3,7 @@ package com.example.proj2.chatMessage;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TextToBooleanChat implements QueryResolutionStrategy<String, Boolean> {
+public class  TextToBooleanChat implements QueryResolutionStrategy<String, Boolean> {
     private List<String> messages = new ArrayList<>();
 
     @Override
@@ -41,6 +41,11 @@ public class TextToBooleanChat implements QueryResolutionStrategy<String, Boolea
         // Hard-coded response for demonstration purposes
         Boolean booleanResult = text.toLowerCase().equals("yes");
         return booleanResult;
+    }
+    public List<String> getResponses() {
+        // Logic to retrieve the responses for the chat
+        // Return the list of responses
+        return null;
     }
 
     private String getResponse(String message) {

@@ -38,10 +38,17 @@ public class TextToImageChat implements QueryResolutionStrategy<String, Image> {
         return messages;
     }
 
+    public List<String> getResponses() {
+        // Logic to retrieve the responses for the chat
+        // Return the list of responses
+        return null;
+    }
+
     private Image createImageFromText(String text) {
         // Logic to create an image from text
         // Hard-coded response for demonstration purposes
         Image image = new Image("path/to/image.png");
         return image;
+
     }
 }

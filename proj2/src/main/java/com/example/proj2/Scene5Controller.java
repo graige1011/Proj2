@@ -7,12 +7,10 @@ import com.example.proj2.chatMessage.*;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
@@ -44,24 +42,49 @@ public class Scene5Controller {
         root.setAlignment(Pos.CENTER);
         root.setPadding(new Insets(20));
         root.getStyleClass().add("root");
-        root.setFillWidth(true); // Hiermee wordt de VBox ingesteld om de beschikbare ruimte in te nemen
+        root.setFillWidth(true);
+
+        // Create "AIsistify" label
+        Label titleLabel = new Label("AIsistify");
+        titleLabel.getStyleClass().addAll("header", "title-label");
+
+        // Create "Create Chat" button and dropdown menu
+        MenuButton createChatButton = new MenuButton("Create Chat");
+        createChatButton.getStyleClass().addAll("create_chat_button");
+        createChatButton.setMinSize(80, 30);
+
+        MenuItem textMenuItem = new MenuItem("Text");
+        textMenuItem.setOnAction(event -> addChat("Text"));
+        MenuItem imageMenuItem = new MenuItem("Image");
+        imageMenuItem.setOnAction(event -> addChat("Image"));
+        MenuItem booleanMenuItem = new MenuItem("Boolean");
+        booleanMenuItem.setOnAction(event -> addChat("Boolean"));
+
+        createChatButton.getItems().addAll(textMenuItem, imageMenuItem, booleanMenuItem);
 
         HBox headerBox = new HBox();
-        headerBox.setAlignment(Pos.CENTER);
+        headerBox.setAlignment(Pos.TOP_CENTER);
         headerBox.getStyleClass().add("header");
         headerBox.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
 
-        Label titleLabel = new Label("AIsistify");
-        titleLabel.getStyleClass().add("header");
-        titleLabel.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-        headerBox.getChildren().add(titleLabel);
+        HBox titleBox = new HBox(titleLabel);
+        titleBox.setAlignment(Pos.TOP_CENTER);
+        titleBox.getStyleClass().add("title-box");
+
+        HBox createChatBox = new HBox(createChatButton);
+        createChatBox.setAlignment(Pos.TOP_LEFT);
+        createChatBox.getStyleClass().add("create-chat-box");
+
+        HBox.setHgrow(titleBox, Priority.ALWAYS); // Allow the title box to expand horizontally
+
+        headerBox.getChildren().addAll(titleBox, createChatBox);
 
         HBox chatContainer = new HBox();
         chatContainer.setAlignment(Pos.CENTER);
         chatContainer.setSpacing(10);
         chatContainer.setFillHeight(true);
         VBox.setVgrow(chatContainer, Priority.ALWAYS);
-        HBox.setHgrow(chatContainer,Priority.ALWAYS);
+        HBox.setHgrow(chatContainer, Priority.ALWAYS);
 
         HBox chatHistoryLabelBox = new HBox();
         chatHistoryLabelBox.setAlignment(Pos.CENTER);
@@ -80,10 +103,11 @@ public class Scene5Controller {
         HBox.setHgrow(chatHistoryMenu, Priority.ALWAYS);
         chatHistoryMenu.setMaxWidth(Double.MAX_VALUE);
         chatHistoryMenu.getChildren().add(chatHistoryLabelBox);
+
         chatHistoryMenu.getChildren().addAll(
-                createChatHistoryButton("text"),
-                createChatHistoryButton("image"),
-                createChatHistoryButton("boolean")
+                createChatHistoryButton("Text", "text"),
+                createChatHistoryButton("Image", "image"),
+                createChatHistoryButton("Boolean", "boolean")
         );
 
 
@@ -141,7 +165,7 @@ public class Scene5Controller {
         chatContainer.getChildren().addAll(splitPane, chatBoxContainer);
         root.getChildren().addAll(headerBox, chatContainer, inputBox);
 
-        String initialChat = "Chat 1";
+        String initialChat = "text";
         openChat(initialChat);
 
 
@@ -158,6 +182,37 @@ public class Scene5Controller {
         stage.setTitle("AIsistify");
         stage.show();
     }
+
+//    private void showCreateChatMenu(ActionEvent event) {
+//        // Create a menu for choosing the chat type
+//        Menu menu = new Menu("Create Chat");
+//        menu.getStyleClass().add("popup_menu");
+//
+//        // Add chat types to the menu
+//        MenuItem textMenuItem = new MenuItem("Text");
+//        textMenuItem.setOnAction(e -> addChat("Text"));
+//        MenuItem imageMenuItem = new MenuItem("Image");
+//        imageMenuItem.setOnAction(e -> addChat("Image"));
+//        MenuItem booleanMenuItem = new MenuItem("Boolean");
+//        booleanMenuItem.setOnAction(e -> addChat("Boolean"));
+//
+//        menu.getItems().addAll(textMenuItem, imageMenuItem, booleanMenuItem);
+//
+//        // Create a menu button for the "Create Chat" functionality
+//        MenuButton createChatButton = new MenuButton();
+//        createChatButton.getStyleClass().add("create_chat_button");
+//        createChatButton.getItems().add(menu);
+//
+//        // Show the menu below the "Create Chat" button
+//        menu.show();
+//    }
+
+    private void addChat(String chatType) {
+        String chatName = getChatName(chatType);
+        chatHistoryMenu.getChildren().add(createChatHistoryButton(chatName, chatType.toLowerCase()));
+    }
+
+
 
     public void enter(ActionEvent event) {
         String message = textBox.getText().trim();
@@ -207,13 +262,33 @@ public class Scene5Controller {
             }
         }
     }
-    private Button createChatHistoryButton(String text) {
+    private Button createChatHistoryButton(String text, String chatType) {
         Button button = new Button(text);
         button.getStyleClass().add("chat_history_button");
-        button.setOnAction(e -> openChat(text)); // Add action to open the selected chat
+        button.setOnAction(e -> openChat(chatType)); // Pass the chat type to the openChat method
         return button;
     }
-    private void openChat(String chatType) {
+
+    private String getChatName(String chatType) {
+        int chatCount = 1;
+        String chatName = chatType;
+        for (Node node : chatHistoryMenu.getChildren()) {
+            if (node instanceof Button) {
+                Button button = (Button) node;
+                if (button.getText().startsWith(chatType)) {
+                    chatCount++;
+                }
+            }
+        }
+        if (chatCount > 1) {
+            chatName = chatType + " " + chatCount;
+        }
+        return chatName;
+    }
+    public void openChat(String chatType) {
+        // Convert chatType to lowercase
+        chatType = chatType.toLowerCase();
+
         // Update the chat history label
         setChatHistoryLabel(chatType);
 
@@ -223,25 +298,53 @@ public class Scene5Controller {
         // Clear the existing messages in the chat box
         chatBox.getChildren().clear();
 
-        // Retrieve the chat messages for the selected chat based on its type
+        // Retrieve the chat messages and responses for the selected chat based on its type
         List<String> chatMessages;
-        if (chatType.equals("Text")) {
+        List<String> chatResponses;
+
+        if (chatType.equals("text")) {
             chatMessages = textChat.getMessages();
-        } else if (chatType.equals("Image")) {
+            chatResponses = textChat.getResponses();
+        } else if (chatType.equals("image")) {
             chatMessages = imageChat.getMessages();
-        } else if (chatType.equals("Boolean")) {
+            chatResponses = imageChat.getResponses();
+        } else if (chatType.equals("boolean")) {
             chatMessages = booleanChat.getMessages();
+            chatResponses = booleanChat.getResponses();
         } else {
             // Handle unknown chat names or other types of chats
             chatMessages = Collections.emptyList();
+            chatResponses = Collections.emptyList();
         }
 
-        // Display the chat messages in the chat box
+        // Display the chat messages and responses in the chat box
+        for (int i = 0; i < chatMessages.size(); i++) {
+            String message = chatMessages.get(i);
+            String response = chatResponses.get(i);
+
+            displayMessage(message);
+            displayMessage(response);
+        }
+
+        // Display the placeholder label if there are no chat messages
         if (chatMessages.isEmpty()) {
             chatBox.getChildren().add(placeholderLabel);
+        }
+    }
+
+    private void displayChatMessages(List<String> messages, List<String> responses) {
+        if (messages.size() != responses.size()) {
+            // Handle the case where the number of messages and responses are not equal
+            System.out.println("Mismatch between the number of messages and responses");
+            return;
+        }
+
+        if (messages.isEmpty()) {
+            chatBox.getChildren().add(placeholderLabel);
         } else {
-            for (String message : chatMessages) {
-                displayMessage(message);
+            for (int i = 0; i < messages.size(); i++) {
+                displayMessage(messages.get(i)); // Display the message
+                displayMessage(responses.get(i)); // Display the response
             }
         }
     }
