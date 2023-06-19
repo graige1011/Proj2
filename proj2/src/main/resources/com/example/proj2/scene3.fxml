@@ -17,6 +17,6 @@
     <PasswordField fx:id="passwordField" promptText="Voer je nieuwe wachtwoord in" style="-fx-background-color: white;"/>
     <PasswordField fx:id="passwordField2" promptText="Bevestig je nieuwe wachtwoord" style="-fx-background-color: white;"/>
     <Button fx:id="ResetPassword" text="Wachtwoord herstellen" onAction="#idkfiller"
-            styleClass = "hover-button" stylesheets="@styles.css"/>
+            styleClass = "hover-button" stylesheets="@GuiManager/styles.css"/>
 
 </VBox>

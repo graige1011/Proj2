@@ -24,40 +24,40 @@ public class Scene3Controller {
     }
 
 
-    public VBox createScene3UI() {
-        VBox root = new VBox();
-        root.setSpacing(20);
-        root.setPadding(new Insets(20));
-        helloController = new HelloController();
-        Label welcomeText = new Label("Reset je wachtwoord");
-        welcomeText.setStyle("-fx-font-size: 24px; -fx-text-fill: darkblue;");
+        public VBox createScene3UI() {
+            VBox root = new VBox();
+            root.setSpacing(20);
+            root.setPadding(new Insets(20));
+            helloController = new HelloController();
+            Label welcomeText = new Label("Reset je wachtwoord");
+            welcomeText.setStyle("-fx-font-size: 24px; -fx-text-fill: darkblue;");
 
-        textField = new TextField();
-        textField.setPromptText("Voer je gebruikersnaam in");
-        textField.setStyle("-fx-background-color: white;");
+            textField = new TextField();
+            textField.setPromptText("Voer je gebruikersnaam in");
+            textField.setStyle("-fx-background-color: white;");
 
-        passwordField = new PasswordField();
-        passwordField.setPromptText("Voer je nieuwe wachtwoord in");
-        passwordField.setStyle("-fx-background-color: white;");
+            passwordField = new PasswordField();
+            passwordField.setPromptText("Voer je nieuwe wachtwoord in");
+            passwordField.setStyle("-fx-background-color: white;");
 
-        passwordField2 = new PasswordField();
-        passwordField2.setPromptText("Bevestig je nieuwe wachtwoord");
-        passwordField2.setStyle("-fx-background-color: white;");
+            passwordField2 = new PasswordField();
+            passwordField2.setPromptText("Bevestig je nieuwe wachtwoord");
+            passwordField2.setStyle("-fx-background-color: white;");
 
-        Button resetPasswordButton = new Button("Wachtwoord herstellen");
-        resetPasswordButton.setOnAction(event -> resetPasswordFunction(event));
-        resetPasswordButton.getStyleClass().add("hover-button");
-        resetPasswordButton.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+            Button resetPasswordButton = new Button("Wachtwoord herstellen");
+            resetPasswordButton.setOnAction(event -> resetPasswordFunction(event));
+            resetPasswordButton.getStyleClass().add("hover-button");
+            resetPasswordButton.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
 
-        Button backButton = new Button("Terug gaan");
-        backButton.setOnAction(this::switchToHelloScene);
-        backButton.getStyleClass().add("hover-button");
-        backButton.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+            Button backButton = new Button("Terug gaan");
+            backButton.setOnAction(this::switchToHelloScene);
+            backButton.getStyleClass().add("hover-button");
+            backButton.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
 
-        root.getChildren().addAll(welcomeText, textField, passwordField, passwordField2, backButton, resetPasswordButton);
+            root.getChildren().addAll(welcomeText, textField, passwordField, passwordField2, backButton, resetPasswordButton);
 
-        return root;
-    }
+            return root;
+        }
 
     public void switchToHelloScene(ActionEvent event) {
         helloController = new HelloController();

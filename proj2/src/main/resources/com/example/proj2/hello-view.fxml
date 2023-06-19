@@ -50,14 +50,14 @@
                        style="-fx-background-color: white;" prefWidth="200" prefHeight="30"/>
 
         <Button fx:id="loginButton" text="Log in" onAction="#handleLogin" GridPane.rowIndex="3" GridPane.columnSpan="2"
-                styleClass = "hover-button" stylesheets="@styles.css" />
+                styleClass = "hover-button" stylesheets="@GuiManager/styles.css" />
 
 
         <Button fx:id="createAccountButton" text="Nieuw Account Aanmaken" onAction="#switchToScene2" GridPane.rowIndex="4" GridPane.columnSpan="2"
-                style="-fx-min-width: 150px;" styleClass = "hover-button" stylesheets="@styles.css"/>
+                style="-fx-min-width: 150px;" styleClass = "hover-button" stylesheets="@GuiManager/styles.css"/>
 
         <Button fx:id="forgotPasswordButton" text="Wachtwoord Vergeten" onAction="#switchToScene3" GridPane.rowIndex="5" GridPane.columnSpan="2"
-                style="-fx-min-width: 150px;" styleClass = "hover-button" stylesheets="@styles.css"/>
+                style="-fx-min-width: 150px;" styleClass = "hover-button" stylesheets="@GuiManager/styles.css"/>
 <!--        <Button fx:id="toggleDarkModeButton" text="Toggle Dark Mode" onAction="#toggleDarkMode" GridPane.rowIndex="6" GridPane.columnSpan="2"-->
 <!--                style="-fx-min-width: 150px;" styleClass = "hover-button" stylesheets="@styles.css"/>-->
 

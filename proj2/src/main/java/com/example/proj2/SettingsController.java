@@ -50,6 +50,7 @@ public class SettingsController {
         return root;
     }
 
+
     public void changeToLightMode(ActionEvent event) {
         // Implement light mode logic here
     }
