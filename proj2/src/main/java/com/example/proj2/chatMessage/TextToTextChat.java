@@ -10,15 +10,21 @@ import java.util.Map;
 public class TextToTextChat implements QueryResolutionStrategy<String, String> {
     private List<String> messages = new ArrayList<>();
     private Map<String, String> messageResponses = new HashMap<>();
-    private Scene5Controller scene5Controller; // Reference to the Scene5Controller instance
+    private Scene5Controller scene5Controller;
+
+    private String chatName;
+
+    public TextToTextChat() {
+        this.messages = new ArrayList<>();
+    }
 
     public void setScene5Controller(Scene5Controller scene5Controller) {
         this.scene5Controller = scene5Controller;
     }
 
     @Override
-    public QueryResolutionResult<String> resolve(QueryResolutionForm<String> queryForm) {
-        String queryData = queryForm.getQueryData();
+    public QueryResolutionResult<String> resolve(QueryResolutionForm<?> queryForm) {
+        String queryData = (String) queryForm.getQueryData();
         String textResult = getResponse(queryData);
 
         return new QueryResolutionResult<>(textResult);
@@ -35,8 +41,6 @@ public class TextToTextChat implements QueryResolutionStrategy<String, String> {
     public void displayMessages() {
         for (String message : messages) {
             String response = messageResponses.get(message);
-
-            // Update UI elements in Scene5Controller to show the messages and responses
             scene5Controller.displayMessage(message);
             scene5Controller.displayMessage(response);
         }
@@ -65,5 +69,14 @@ public class TextToTextChat implements QueryResolutionStrategy<String, String> {
         } else {
             return "I'm sorry, I don't understand.";
         }
+    }
+
+    @Override
+    public String getChatName() {
+        return chatName;
+    }
+
+    public void setChatName(String chatName) {
+        this.chatName = chatName;
     }
 }
