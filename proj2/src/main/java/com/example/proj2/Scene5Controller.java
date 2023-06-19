@@ -16,7 +16,9 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Scene5Controller {
 
@@ -34,6 +36,9 @@ public class Scene5Controller {
     private TextToTextChat textChat; // Instance of TextToTextChat
     private TextToImageChat imageChat; // Instance of ImageChat
     private TextToBooleanChat booleanChat; // Instance of BooleanChat
+
+    private Map<String, QueryResolutionStrategy<?, ?>> chats = new HashMap<>();
+
 
 
 
@@ -207,59 +212,49 @@ public class Scene5Controller {
 //        menu.show();
 //    }
 
-    private void addChat(String chatType) {
+    public void addChat(String chatType) {
         String chatName = getChatName(chatType);
+        switch (chatType.toLowerCase()) {
+            case "text":
+                TextToTextChat textChat = new TextToTextChat();
+                textChat.setScene5Controller(this);
+                chats.put(chatName, textChat);
+                break;
+            case "image":
+                TextToImageChat imageChat = new TextToImageChat();
+                imageChat.setScene5Controller(this);
+                chats.put(chatName, imageChat);
+                break;
+            case "boolean":
+                TextToBooleanChat booleanChat = new TextToBooleanChat();
+                booleanChat.setScene5Controller(this);
+                chats.put(chatName, booleanChat);
+                break;
+            default:
+                System.out.println("Unsupported chat type: " + chatType);
+                break;
+        }
         chatHistoryMenu.getChildren().add(createChatHistoryButton(chatName, chatType.toLowerCase()));
     }
 
 
 
+
     public void enter(ActionEvent event) {
         String message = textBox.getText().trim();
-        if (!message.isEmpty()) {
-            if (selectedChat != null) {
-                // Create chat message based on the selected chat type
-                String messageType = selectedChat.toLowerCase();
-
-                switch (messageType) {
-                    case "text":
-                        QueryResolutionResult<String> textResolutionResult = textChat.resolve(new QueryResolutionForm<>(message));
-                        if (textResolutionResult != null) {
-                            // Handle text resolution result
-                            String response = textResolutionResult.getResultData();
-                            textChat.sendMessage(message);
-                            textChat.displayMessages(); // Call displayMessages() to update the chat box
-                        }
-                        break;
-                    case "image":
-                        QueryResolutionResult<Image> imageResolutionResult = imageChat.resolve(new QueryResolutionForm<>(message));
-                        if (imageResolutionResult != null) {
-                            // Handle image resolution result
-                            Image resolvedImage = imageResolutionResult.getResultData();
-                            imageChat.sendMessage(message);
-                            imageChat.displayMessages();
-                        }
-                        break;
-                    case "boolean":
-                        QueryResolutionResult<Boolean> booleanResolutionResult = booleanChat.resolve(new QueryResolutionForm<>(message));
-                        if (booleanResolutionResult != null) {
-                            // Handle boolean resolution result
-                            Boolean resolvedBoolean = booleanResolutionResult.getResultData();
-                            booleanChat.sendMessage(message);
-                            booleanChat.sendMessage(resolvedBoolean.toString());
-                            booleanChat.displayMessages();
-                        }
-                        break;
-                    default:
-                        // Handle unknown chat types
-                        System.out.println("Unsupported chat type: " + selectedChat);
-                        break;
+        if (!message.isEmpty() && selectedChat != null) {
+            QueryResolutionStrategy<String, String> chat = (QueryResolutionStrategy<String, String>) chats.get(selectedChat);
+            if (chat != null) {
+                QueryResolutionForm<String> form = new QueryResolutionForm<>(message);
+                QueryResolutionResult<String> resolutionResult = chat.resolve(form);
+                if (resolutionResult != null) {
+                    chat.sendMessage(message);
+                    chat.displayMessages();
                 }
-
-                textBox.clear();
             } else {
-                System.out.println("SelectedChat is null. Please set it before entering a message.");
+                System.out.println("Selected chat is null. Please set it before entering a message.");
             }
+            textBox.clear();
         }
     }
     private Button createChatHistoryButton(String text, String chatType) {
@@ -286,52 +281,17 @@ public class Scene5Controller {
         return chatName;
     }
     public void openChat(String chatType) {
-        // Convert chatType to lowercase
-        chatType = chatType.toLowerCase();
-
-        // Update the chat history label
+        selectedChat = chatType;
         setChatHistoryLabel(chatType);
 
-        // Set the selected chat
-        selectedChat = chatType;
-
-        // Clear the existing messages in the chat box
         chatBox.getChildren().clear();
-
-        // Retrieve the chat messages and responses for the selected chat based on its type
-        List<String> chatMessages;
-        List<String> chatResponses;
-
-        if (chatType.equals("text")) {
-            chatMessages = textChat.getMessages();
-            chatResponses = textChat.getResponses();
-        } else if (chatType.equals("image")) {
-            chatMessages = imageChat.getMessages();
-            chatResponses = imageChat.getResponses();
-        } else if (chatType.equals("boolean")) {
-            chatMessages = booleanChat.getMessages();
-            chatResponses = booleanChat.getResponses();
+        if (chats.containsKey(chatType)) {
+            QueryResolutionStrategy<?, ?> chat = chats.get(chatType);
+            chat.displayMessages();
         } else {
-            // Handle unknown chat names or other types of chats
-            chatMessages = Collections.emptyList();
-            chatResponses = Collections.emptyList();
-        }
-
-        // Display the chat messages and responses in the chat box
-        for (int i = 0; i < chatMessages.size(); i++) {
-            String message = chatMessages.get(i);
-            String response = chatResponses.get(i);
-
-            displayMessage(message);
-            displayMessage(response);
-        }
-
-        // Display the placeholder label if there are no chat messages
-        if (chatMessages.isEmpty()) {
-            chatBox.getChildren().add(placeholderLabel);
+            System.out.println("Unsupported chat type: " + chatType);
         }
     }
-
     private void displayChatMessages(List<String> messages, List<String> responses) {
         if (messages.size() != responses.size()) {
             // Handle the case where the number of messages and responses are not equal
@@ -371,6 +331,8 @@ public class Scene5Controller {
     public void setTextToImageChat(TextToImageChat imageChat) {
         this.imageChat = imageChat;
     }
+
+
 
 
 //    public void setHistoryManager(ChatHistoryManager historyManager) {

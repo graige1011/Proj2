@@ -1,5 +1,6 @@
 package com.example.proj2.chatMessage;
 
+import com.example.proj2.Scene5Controller;
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
@@ -7,10 +8,24 @@ import java.util.List;
 
 public class TextToImageChat implements QueryResolutionStrategy<String, Image> {
     private List<String> messages = new ArrayList<>();
+    private String chatName;
+    private Scene5Controller scene5Controller;
+
+
+
+
+    public TextToImageChat() {
+        this.messages = new ArrayList<>();
+
+    }
+    public void setScene5Controller(Scene5Controller scene5Controller) {
+        this.scene5Controller = scene5Controller;
+    }
+
 
     @Override
-    public QueryResolutionResult<Image> resolve(QueryResolutionForm<String> queryForm) {
-        String queryData = queryForm.getQueryData();
+    public QueryResolutionResult<Image> resolve(QueryResolutionForm<?> queryForm) {
+        String queryData = (String) queryForm.getQueryData();
         Image imageResult = createImageFromText(queryData);
 
         return new QueryResolutionResult<>(imageResult);
@@ -50,5 +65,13 @@ public class TextToImageChat implements QueryResolutionStrategy<String, Image> {
         Image image = new Image("path/to/image.png");
         return image;
 
+    }
+    @Override
+    public String getChatName() {
+        return chatName;
+    }
+
+    public void setChatName(String chatName) {
+        this.chatName = chatName;
     }
 }
