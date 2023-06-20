@@ -36,28 +36,28 @@ public class SceneFunctions {
     public void logout(){}
 
     public void addChat(String chatType) {
-        String chatName = getChatName(chatType);
-        switch (chatType.toLowerCase()) {
-            case "text":
-                TextToTextChat textChat = new TextToTextChat();
-                textChat.setScene5Controller(this);
-                chats.put(chatName, textChat);
-                break;
-            case "image":
-                TextToImageChat imageChat = new TextToImageChat();
-                imageChat.setScene5Controller(this);
-                chats.put(chatName, imageChat);
-                break;
-            case "boolean":
-                TextToBooleanChat booleanChat = new TextToBooleanChat();
-                booleanChat.setScene5Controller(this);
-                chats.put(chatName, booleanChat);
-                break;
-            default:
-                System.out.println("Unsupported chat type: " + chatType);
-                break;
-        }
-        chatHistoryMenu.getChildren().add(createChatHistoryButton(chatName, chatType.toLowerCase()));
+//        String chatName = getChatName(chatType);
+//        switch (chatType.toLowerCase()) {
+//            case "text":
+//                TextToTextChat textChat = new TextToTextChat();
+//                textChat.setScene5Controller(this);
+//                chats.put(chatName, textChat);
+//                break;
+//            case "image":
+//                TextToImageChat imageChat = new TextToImageChat();
+//                imageChat.setScene5Controller(this);
+//                chats.put(chatName, imageChat);
+//                break;
+//            case "boolean":
+//                TextToBooleanChat booleanChat = new TextToBooleanChat();
+//                booleanChat.setScene5Controller(this);
+//                chats.put(chatName, booleanChat);
+//                break;
+//            default:
+//                System.out.println("Unsupported chat type: " + chatType);
+//                break;
+//        }
+//        chatHistoryMenu.getChildren().add(createChatHistoryButton(chatName, chatType.toLowerCase()));
     }
 
 

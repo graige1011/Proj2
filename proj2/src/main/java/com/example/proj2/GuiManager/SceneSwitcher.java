@@ -41,7 +41,7 @@ public class SceneSwitcher {
     }
 
     public void switchToScene5(ActionEvent event) {
-        Scene scene5 = sceneCreation.createScene4(); // Fix the method name to createScene5()
+        Scene scene5 = sceneCreation.createScene5(); // Fix the method name to createScene5()
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         VBox newRoot = new VBox();
