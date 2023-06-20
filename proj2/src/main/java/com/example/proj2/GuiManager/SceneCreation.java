@@ -3,10 +3,7 @@ package com.example.proj2.GuiManager;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -129,7 +126,7 @@ public class SceneCreation {
         Button registerButton = new Button("Register");
         registerButton.setOnAction(event -> {
             // sceneFunctions.handleRegistration(textField.getText(), textField3.getText(), textField4.getText(), passwordField.getText());
-            sceneSwitcher.switchToScene3(event);
+            sceneSwitcher.switchToScene3(event); // dit moet iets anders zijn
         });
         registerButton.getStyleClass().add("hover-button");
 
@@ -191,6 +188,138 @@ public class SceneCreation {
 
         return new Scene(root, 600, 800); // Set the desired size of the scene
     }
+    public Scene createScene5() {
+        VBox root = new VBox();
+        root.setSpacing(20);
+        root.setPadding(new Insets(20));
+        root.setAlignment(Pos.CENTER);
+        root.setStyle("-fx-background-color: white;");
+
+        // Create "AIsistify" label
+        Label titleLabel = new Label("AIsistify");
+        titleLabel.getStyleClass().addAll("header", "title-label");
+
+        // Create "Create Chat" button and dropdown menu
+        MenuButton  createChatButton = new MenuButton("Create Chat");
+        createChatButton.getStyleClass().addAll("create_chat_button");
+        createChatButton.setMinSize(80, 30);
+
+        MenuItem textMenuItem = new MenuItem("Text");
+        textMenuItem.setOnAction(event -> addChat("Text"));
+        MenuItem imageMenuItem = new MenuItem("Image");
+        imageMenuItem.setOnAction(event -> addChat("Image"));
+        MenuItem booleanMenuItem = new MenuItem("Boolean");
+        booleanMenuItem.setOnAction(event -> addChat("Boolean"));
+
+        createChatButton.getItems().addAll(textMenuItem, imageMenuItem, booleanMenuItem);
+
+        HBox headerBox = new HBox();
+        headerBox.setAlignment(Pos.TOP_CENTER);
+        headerBox.getStyleClass().add("header");
+        headerBox.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+
+        HBox titleBox = new HBox(titleLabel);
+        titleBox.setAlignment(Pos.TOP_CENTER);
+        titleBox.getStyleClass().add("title-box");
+
+        HBox createChatBox = new HBox(createChatButton);
+        createChatBox.setAlignment(Pos.TOP_LEFT);
+        createChatBox.getStyleClass().add("create-chat-box");
+
+        HBox.setHgrow(titleBox, Priority.ALWAYS); // Allow the title box to expand horizontally
+
+        headerBox.getChildren().addAll(titleBox, createChatBox);
+
+        HBox chatContainer = new HBox();
+        chatContainer.setAlignment(Pos.CENTER);
+        chatContainer.setSpacing(10);
+        chatContainer.setFillHeight(true);
+        VBox.setVgrow(chatContainer, Priority.ALWAYS);
+        HBox.setHgrow(chatContainer, Priority.ALWAYS);
+
+        HBox chatHistoryLabelBox = new HBox();
+        chatHistoryLabelBox.setAlignment(Pos.CENTER);
+        chatHistoryLabelBox.getStyleClass().add("wrapper");
+        Label chatHistoryLabel = new Label("Chat");
+        chatHistoryLabel.setStyle("-fx-font-weight: bold;");
+        chatHistoryLabel.getStyleClass().add("wrapper");
+        chatHistoryLabelBox.getChildren().add(chatHistoryLabel);
+
+        VBox chatHistoryMenu = new VBox();
+        chatHistoryMenu.getStyleClass().add("chat_history_menu");
+        chatHistoryMenu.setPrefWidth(300);
+        chatHistoryMenu.setAlignment(Pos.TOP_LEFT);
+        chatHistoryMenu.setSpacing(10);
+        VBox.setVgrow(chatHistoryMenu, Priority.ALWAYS);
+        HBox.setHgrow(chatHistoryMenu, Priority.ALWAYS);
+        chatHistoryMenu.setMaxWidth(Double.MAX_VALUE);
+        chatHistoryMenu.getChildren().add(chatHistoryLabelBox);
+
+        chatHistoryMenu.getChildren().addAll(
+                SceneFunctions.createChatHistoryButton("Text", "text"),
+                SceneFunctions.createChatHistoryButton("Image", "image"),
+                SceneFunctions.createChatHistoryButton("Boolean", "boolean")
+        );
+
+        VBox chatBox = new VBox(); // hum controleer dit voor me aub
+        chatBox.getStyleClass().add("chat_box");
+        chatBox.setAlignment(Pos.CENTER);
+        chatBox.setSpacing(10);
+        VBox.setVgrow(chatBox, Priority.ALWAYS);
+        HBox.setHgrow(chatBox, Priority.ALWAYS);
+        Label placeholderLabel = new Label("No messages yet");
+        chatBox.getChildren().addAll(chatHistoryLabelBox, placeholderLabel);
+
+        SplitPane splitPane = new SplitPane();
+        splitPane.getStyleClass().add("split-pane");
+        splitPane.setPrefWidth(600); // Set the preferred width of the split pane
+        splitPane.setDividerPositions(0.2); // Set the initial divider position
+        splitPane.getItems().addAll(chatHistoryMenu, chatBox);
+
+        VBox.setVgrow(splitPane, Priority.ALWAYS);
+        HBox.setHgrow(splitPane, Priority.ALWAYS);
+
+        HBox inputBox = new HBox();
+        inputBox.setAlignment(Pos.BOTTOM_CENTER);
+
+        textBox = new TextField();
+        textBox.setPrefWidth(300); // Set the preferred width of the text field
+        textBox.setPrefHeight(40); // Set the preferred height of the text field
+        textBox.setPromptText("Enter text");
+        textBox.getStyleClass().add("input");
+        textBox.setStyle("-fx-background-color: white;");
+
+        enterButton = new Button("Enter");
+        enterButton.getStyleClass().add("hover-button");
+        enterButton.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+        enterButton.setOnAction(this::enter);
+
+        Button settingsButton = new Button("Settings");
+        settingsButton.setOnAction(this::openSettings);
+        settingsButton.getStyleClass().add("settings_button");
+
+        StackPane chatBoxContainer = new StackPane();
+        chatBoxContainer.setAlignment(Pos.TOP_CENTER);
+        chatBoxContainer.getChildren().add(chatBox);
+
+        HBox.setHgrow(textBox, Priority.ALWAYS);
+        HBox.setHgrow(enterButton, Priority.NEVER);
+        HBox.setHgrow(settingsButton, Priority.NEVER);
+
+        VBox.setVgrow(textBox, Priority.ALWAYS);
+        VBox.setVgrow(enterButton, Priority.NEVER);
+        VBox.setVgrow(settingsButton, Priority.NEVER);
+
+        inputBox.getChildren().addAll(textBox, enterButton, settingsButton);
+        chatContainer.getChildren().addAll(splitPane, chatBoxContainer);
+        root.getChildren().addAll(headerBox, chatContainer, inputBox);
+
+        String initialChat = "text";
+        SceneFunctions.openChat(initialChat);
+
+        return new Scene(root, 800, 600); // Set the desired size of the scene
+    }
+
 
     public Scene createSettings() {
         AnchorPane root = new AnchorPane();
