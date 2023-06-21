@@ -16,6 +16,7 @@
     import javafx.stage.Stage;
 
     import java.util.List;
+    import java.util.Objects;
 
     public class HelloController {
         private List<User> users;
@@ -96,7 +97,7 @@
 
 
             Scene scene = new Scene(root, 800, 600);
-            scene.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
+            scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("styles.css")).toExternalForm());
 
             return scene;
         }

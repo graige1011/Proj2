@@ -1,5 +1,7 @@
 package com.example.proj2.GuiManager;
+import javafx.scene.control.Alert.AlertType;
 
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -8,6 +10,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
+
+import java.util.ArrayList;
 
 public class SceneCreation {
 
@@ -21,10 +25,12 @@ public class SceneCreation {
     private Label chatHistoryLabel;
     private VBox chatBox;
 
-    public SceneCreation() {
+    private ArrayList<Userr> userList;
 
+    public SceneCreation() {
         sceneFunctions = new SceneFunctions();
         sceneSwitcher = new SceneSwitcher(this);
+        userList =new ArrayList<Userr>();
     }
 
     public Scene createScene1() {
@@ -73,9 +79,29 @@ public class SceneCreation {
 
         Button loginButton = new Button("Log in");
         loginButton.setOnAction(event -> {
-            // sceneFunctions.handleLogin(usernameField.getText(), passwordField.getText());
-            sceneSwitcher.switchToScene5(event);
+            String username = usernameField.getText();
+            String password = passwordField.getText();
+
+            // Call a method or class to handle the login logic
+            boolean isAuthenticated = false;
+            for (Userr user : userList) {
+                if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                    isAuthenticated = true;
+                    break;
+                }
+            }
+
+            if (isAuthenticated) {
+                sceneSwitcher.switchToScene5(event);
+            } else {
+                Alert alert = new Alert(AlertType.ERROR);
+                alert.setTitle("Login Failed");
+                alert.setHeaderText(null);
+                alert.setContentText("Invalid username or password. Please try again.");
+                alert.showAndWait();
+            }
         });
+
         loginButton.getStyleClass().add("hover-button");
         loginButton.setStyle("-fx-min-width: 150px;");
         gridPane.add(loginButton, 0, 3, 2, 1);
@@ -97,7 +123,6 @@ public class SceneCreation {
         forgotPasswordButton.getStyleClass().add("hover-button");
         forgotPasswordButton.setStyle("-fx-min-width: 150px;");
         gridPane.add(forgotPasswordButton, 0, 5, 2, 1);
-
         root.getChildren().add(gridPane);
 
         // Allow the VBox and GridPane to grow and fill the available space
@@ -105,6 +130,8 @@ public class SceneCreation {
 
         return new Scene(root, 800, 600); // Set the desired size of the scene
     }
+
+
     public Scene createScene2() {
         VBox root = new VBox();
         root.setSpacing(20);
@@ -134,7 +161,31 @@ public class SceneCreation {
         Button registerButton = new Button("Register");
         registerButton.setOnAction(event -> {
             // sceneFunctions.handleRegistration(textField.getText(), textField3.getText(), textField4.getText(), passwordField.getText());
-            sceneSwitcher.switchToScene3(event); // dit moet iets anders zijn
+            String name = textField4.getText();
+            String password = passwordField.getText();
+            Userr newUser = new Userr(name,password);
+            userList.add(newUser);
+
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Registration Successful");
+            alert.setHeaderText(null);
+            alert.setContentText("Registration completed successfully!");
+            alert.showAndWait();
+
+            // Print current user list in the terminal
+            System.out.println("Current User List:");
+            for (Userr user : userList) {
+                System.out.println("Username: " + user.getUsername() + ", Password: " + user.getPassword());
+            }
+
+            // Reset the registration form
+            textField.clear();
+            textField3.clear();
+            textField4.clear();
+            passwordField.clear();
+            sceneSwitcher.switchToScene1(event);
+
+             // dit moet iets anders zijn
         });
         registerButton.getStyleClass().add("hover-button");
 
@@ -142,6 +193,7 @@ public class SceneCreation {
 
         return new Scene(root, 600, 800); // Set the desired size of the scene
     }
+
     public Scene createScene3() {
         VBox root = new VBox();
         root.setSpacing(20);
@@ -196,7 +248,6 @@ public class SceneCreation {
 
         return new Scene(root, 600, 800); // Set the desired size of the scene
     }
-
     public Scene createScene5() {
         VBox root = new VBox();
         root.setSpacing(20);
@@ -290,9 +341,6 @@ public class SceneCreation {
         scene.getStylesheets().add("file:///C:/Users/keanu/Desktop/github/PROJ2/proj2/Proj2/proj2/src/main/java/com/example/proj2/GuiManager/styles.css");
         return scene;
     }
-
-
-
     public Scene createSettings() {
         AnchorPane root = new AnchorPane();
         root.setPrefSize(600, 400);
@@ -331,8 +379,5 @@ public class SceneCreation {
 
         return new Scene(root);
     }
-
-
-
 
 }
