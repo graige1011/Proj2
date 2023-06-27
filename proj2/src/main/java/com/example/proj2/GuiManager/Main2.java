@@ -2,7 +2,6 @@ package com.example.proj2.GuiManager;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Main2 extends Application {
@@ -15,8 +14,7 @@ public class Main2 extends Application {
     public void start(Stage primaryStage) {
 
         SceneCreation sceneCreation = new SceneCreation();
-        Scene scene = sceneCreation.createScene1();
-        scene.getStylesheets().add("file:///C:/Users/keanu/Desktop/github/PROJ2/proj2/Proj2/proj2/src/main/java/com/example/proj2/GuiManager/styles.css");
+        Scene scene = sceneCreation.createLoginPage();
         primaryStage.setScene(scene);
         primaryStage.setTitle("AIsistify");
         primaryStage.setWidth(800); // Set the window width

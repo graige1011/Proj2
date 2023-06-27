@@ -1,8 +1,9 @@
 package com.example.proj2.chatMessage;
 
-class TextToBooleanChatFactory implements AbstractChatFactory {
+public class TextToBooleanChatFactory implements AbstractChatFactory<String, Boolean> {
     @Override
-    public QueryResolutionStrategy<String, Boolean> createChat() {
+    public QueryResolutionStrategy<String, Boolean> createStrategy() {
         return new TextToBooleanChat();
     }
+
 }

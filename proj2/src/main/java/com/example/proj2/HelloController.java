@@ -165,13 +165,12 @@
             // Create the dependencies
             TextToTextChat textToTextChat = new TextToTextChat();
             TextToBooleanChat textToBooleanChat = new TextToBooleanChat();
-            TextToImageChat textToImageChat = new TextToImageChat();
             Scene5Controller scene5Controller = new Scene5Controller();
             // Set the Scene5Controller instance in TextToTextChat
-            textToTextChat.setScene5Controller(scene5Controller);
+//            textToTextChat.setScene5Controller(scene5Controller);
             scene5Controller.setTextChat(textToTextChat);
             scene5Controller.setTextToBooleanChat(textToBooleanChat);
-            scene5Controller.setTextToImageChat(textToImageChat);
+
 
 
             VBox scene5Root = scene5Controller.createScene5UI();

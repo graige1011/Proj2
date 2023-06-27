@@ -1,21 +1,17 @@
 package com.example.proj2;
 import com.example.proj2.chatMessage.TextToTextChat;
 import com.example.proj2.chatMessage.TextToBooleanChat;
-import com.example.proj2.chatMessage.TextToImageChat;
 
 import com.example.proj2.chatMessage.*;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.Side;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +30,6 @@ public class Scene5Controller {
 //    private ChatHistoryManager historyManager;
     private String selectedChat; // New variable to store the selected chat name
     private TextToTextChat textChat; // Instance of TextToTextChat
-    private TextToImageChat imageChat; // Instance of ImageChat
     private TextToBooleanChat booleanChat; // Instance of BooleanChat
 
     private Map<String, QueryResolutionStrategy<?, ?>> chats = new HashMap<>();
@@ -58,14 +53,14 @@ public class Scene5Controller {
         createChatButton.getStyleClass().addAll("create_chat_button");
         createChatButton.setMinSize(80, 30);
 
-        MenuItem textMenuItem = new MenuItem("Text");
-        textMenuItem.setOnAction(event -> addChat("Text"));
-        MenuItem imageMenuItem = new MenuItem("Image");
-        imageMenuItem.setOnAction(event -> addChat("Image"));
-        MenuItem booleanMenuItem = new MenuItem("Boolean");
-        booleanMenuItem.setOnAction(event -> addChat("Boolean"));
+//        MenuItem textMenuItem = new MenuItem("Text");
+//        textMenuItem.setOnAction(event -> addChat("Text"));
+//        MenuItem imageMenuItem = new MenuItem("Image");
+//        imageMenuItem.setOnAction(event -> addChat("Image"));
+//        MenuItem booleanMenuItem = new MenuItem("Boolean");
+//        booleanMenuItem.setOnAction(event -> addChat("Boolean"));
 
-        createChatButton.getItems().addAll(textMenuItem, imageMenuItem, booleanMenuItem);
+//        createChatButton.getItems().addAll(textMenuItem, imageMenuItem, booleanMenuItem);
 
         HBox headerBox = new HBox();
         headerBox.setAlignment(Pos.TOP_CENTER);
@@ -148,7 +143,7 @@ public class Scene5Controller {
         enterButton = new Button("Enter");
         enterButton.getStyleClass().add("hover-button");
         enterButton.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
-        enterButton.setOnAction(this::enter);
+//        enterButton.setOnAction(this::enter);
 
         Button settingsButton = new Button("Settings");
         settingsButton.setOnAction(this::openSettings);
@@ -212,51 +207,28 @@ public class Scene5Controller {
 //        menu.show();
 //    }
 
-    public void addChat(String chatType) {
-        String chatName = getChatName(chatType);
-        switch (chatType.toLowerCase()) {
-            case "text":
-                TextToTextChat textChat = new TextToTextChat();
-                textChat.setScene5Controller(this);
-                chats.put(chatName, textChat);
-                break;
-            case "image":
-                TextToImageChat imageChat = new TextToImageChat();
-                imageChat.setScene5Controller(this);
-                chats.put(chatName, imageChat);
-                break;
-            case "boolean":
-                TextToBooleanChat booleanChat = new TextToBooleanChat();
-                booleanChat.setScene5Controller(this);
-                chats.put(chatName, booleanChat);
-                break;
-            default:
-                System.out.println("Unsupported chat type: " + chatType);
-                break;
-        }
-        chatHistoryMenu.getChildren().add(createChatHistoryButton(chatName, chatType.toLowerCase()));
-    }
 
 
 
 
-    public void enter(ActionEvent event) {
-        String message = textBox.getText().trim();
-        if (!message.isEmpty() && selectedChat != null) {
-            QueryResolutionStrategy<String, String> chat = (QueryResolutionStrategy<String, String>) chats.get(selectedChat);
-            if (chat != null) {
-                QueryResolutionForm<String> form = new QueryResolutionForm<>(message);
-                QueryResolutionResult<String> resolutionResult = chat.resolve(form);
-                if (resolutionResult != null) {
-                    chat.sendMessage(message);
-                    chat.displayMessages();
-                }
-            } else {
-                System.out.println("Selected chat is null. Please set it before entering a message.");
-            }
-            textBox.clear();
-        }
-    }
+
+//    public void enter(ActionEvent event) {
+//        String message = textBox.getText().trim();
+//        if (!message.isEmpty() && selectedChat != null) {
+//            QueryResolutionStrategy<String, String> chat = (QueryResolutionStrategy<String, String>) chats.get(selectedChat);
+//            if (chat != null) {
+//                QueryResolutionForm<String> form = new QueryResolutionForm<>(message);
+//                QueryResolutionResult<String> resolutionResult = chat.resolve(form);
+//                if (resolutionResult != null) {
+//                    chat.sendMessage(message);
+//                    chat.displayMessages();
+//                }
+//            } else {
+//                System.out.println("Selected chat is null. Please set it before entering a message.");
+//            }
+//            textBox.clear();
+//        }
+//    }
     private Button createChatHistoryButton(String text, String chatType) {
         Button button = new Button(text);
         button.getStyleClass().add("chat_history_button");
@@ -287,7 +259,7 @@ public class Scene5Controller {
         chatBox.getChildren().clear();
         if (chats.containsKey(chatType)) {
             QueryResolutionStrategy<?, ?> chat = chats.get(chatType);
-            chat.displayMessages();
+//            chat.displayMessages();
         } else {
             System.out.println("Unsupported chat type: " + chatType);
         }
@@ -328,9 +300,7 @@ public class Scene5Controller {
         this.booleanChat = booleanChat;
     }
 
-    public void setTextToImageChat(TextToImageChat imageChat) {
-        this.imageChat = imageChat;
-    }
+
 
 
 

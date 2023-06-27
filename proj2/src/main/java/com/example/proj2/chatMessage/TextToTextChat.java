@@ -1,6 +1,9 @@
 package com.example.proj2.chatMessage;
 
+import com.example.proj2.GuiManager.SceneFunctions;
 import com.example.proj2.Scene5Controller;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,75 +11,32 @@ import java.util.List;
 import java.util.Map;
 
 public class TextToTextChat implements QueryResolutionStrategy<String, String> {
-    private List<String> messages = new ArrayList<>();
-    private Map<String, String> messageResponses = new HashMap<>();
-    private Scene5Controller scene5Controller;
+    private ChatHistoryManager chatHistoryManager;
 
-    private String chatName;
-
-    public TextToTextChat() {
-        this.messages = new ArrayList<>();
-    }
-
-    public void setScene5Controller(Scene5Controller scene5Controller) {
-        this.scene5Controller = scene5Controller;
+    @Override
+    public void setChatHistoryManager(ChatHistoryManager chatHistoryManager) {
+        this.chatHistoryManager = chatHistoryManager;
     }
 
     @Override
-    public QueryResolutionResult<String> resolve(QueryResolutionForm<?> queryForm) {
-        String queryData = (String) queryForm.getQueryData();
-        String textResult = getResponse(queryData);
+    public QueryResolutionResult<String> resolve(QueryResolutionForm<String> queryForm) {
+        String query = queryForm.getQueryData();
+        chatHistoryManager.addChatMessage(query);
+
+        // Perform your query resolution logic here and get the text result
+        String textResult;
+
+        // Example of hardcoded responses based on prompts
+        if (query.equalsIgnoreCase("hello")) {
+            textResult = "Hi there!";
+        } else if (query.equalsIgnoreCase("how are you?")) {
+            textResult = "I'm doing well, thank you!";
+        } else if (query.equalsIgnoreCase("goodbye")) {
+            textResult = "Goodbye! Have a great day!";
+        } else {
+            textResult = "I'm sorry, I didn't understand your query.";
+        }
 
         return new QueryResolutionResult<>(textResult);
-    }
-
-    @Override
-    public void sendMessage(String message) {
-        String response = getResponse(message);
-        messages.add(message);
-        messageResponses.put(message, response);
-    }
-
-    @Override
-    public void displayMessages() {
-        for (String message : messages) {
-            String response = messageResponses.get(message);
-            scene5Controller.displayMessage(message);
-            scene5Controller.displayMessage(response);
-        }
-    }
-
-    @Override
-    public List<String> getMessages() {
-        return messages;
-    }
-
-    public List<String> getResponses() {
-        List<String> responses = new ArrayList<>();
-        for (String message : messages) {
-            String response = messageResponses.get(message);
-            responses.add(response);
-        }
-        return responses;
-    }
-
-    private String getResponse(String input) {
-        // Define specific responses based on the input text
-        if (input.equalsIgnoreCase("hello")) {
-            return "Hi there!";
-        } else if (input.equalsIgnoreCase("how are you?")) {
-            return "I'm doing well, thank you!";
-        } else {
-            return "I'm sorry, I don't understand.";
-        }
-    }
-
-    @Override
-    public String getChatName() {
-        return chatName;
-    }
-
-    public void setChatName(String chatName) {
-        this.chatName = chatName;
     }
 }

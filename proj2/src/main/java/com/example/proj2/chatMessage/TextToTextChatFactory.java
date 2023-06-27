@@ -1,8 +1,8 @@
 package com.example.proj2.chatMessage;
 
-class TextToTextChatFactory implements AbstractChatFactory {
+public class TextToTextChatFactory implements AbstractChatFactory {
     @Override
-    public QueryResolutionStrategy<String, String> createChat() {
+    public QueryResolutionStrategy<String, String> createStrategy() {
         return new TextToTextChat();
     }
 }

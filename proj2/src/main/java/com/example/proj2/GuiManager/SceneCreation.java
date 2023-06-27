@@ -1,7 +1,9 @@
 package com.example.proj2.GuiManager;
+import com.example.proj2.chatMessage.*;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Alert.AlertType;
 
-import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -11,21 +13,30 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class SceneCreation {
 
     private SceneFunctions sceneFunctions;
     private SceneSwitcher sceneSwitcher;
     //deze zijn nodig voor createScene5
-    private TextField textBox;
+    private TextField chatField;
     private Button enterButton;
     private VBox chatHistoryMenu;
     private Label placeholderLabel;
     private Label chatHistoryLabel;
     private VBox chatBox;
+    private AbstractChatFactory<String,String> TextchatFactory;
+    private AbstractChatFactory<String,Boolean> BooleanchatFactory;
+    private Map<String, ChatType> chatMap = new HashMap<>();
+
+    private Map<String, QueryResolutionStrategy<?, ?>> chats = new HashMap<>();
+
+    Map<String, ChatHistoryManager> chatHistoryMap = new HashMap<>();
 
     private ArrayList<Userr> userList;
+
+    List<String> chatMessages = new ArrayList<>();
 
     public SceneCreation() {
         sceneFunctions = new SceneFunctions();
@@ -33,7 +44,12 @@ public class SceneCreation {
         userList =new ArrayList<Userr>();
     }
 
-    public Scene createScene1() {
+    enum ChatType {
+        BOOLEAN,
+        TEXT
+    }
+
+    public Scene createLoginPage() {
         VBox root = new VBox();
         root.setAlignment(Pos.CENTER);
         root.setSpacing(20);
@@ -92,7 +108,7 @@ public class SceneCreation {
             }
 
             if (isAuthenticated) {
-                sceneSwitcher.switchToScene5(event);
+                sceneSwitcher.switchTocreateChatPage(event);
             } else {
                 Alert alert = new Alert(AlertType.ERROR);
                 alert.setTitle("Login Failed");
@@ -109,7 +125,7 @@ public class SceneCreation {
         Button createAccountButton = new Button("Nieuw Account Aanmaken");
         createAccountButton.setOnAction(event -> {
             // sceneFunctions.handleAccountCreation();
-            sceneSwitcher.switchToScene2(event);
+            sceneSwitcher.switchToNewAccountPage(event);
         });
         createAccountButton.getStyleClass().add("hover-button");
         createAccountButton.setStyle("-fx-min-width: 150px;");
@@ -118,7 +134,7 @@ public class SceneCreation {
         Button forgotPasswordButton = new Button("Wachtwoord Vergeten");
         forgotPasswordButton.setOnAction(event -> {
             // sceneFunctions.handlePasswordRecovery();
-            sceneSwitcher.switchToScene3(event);
+            sceneSwitcher.switchToResetPasswordPage(event);
         });
         forgotPasswordButton.getStyleClass().add("hover-button");
         forgotPasswordButton.setStyle("-fx-min-width: 150px;");
@@ -132,7 +148,7 @@ public class SceneCreation {
     }
 
 
-    public Scene createScene2() {
+    public Scene createNewAccountPage() {
         VBox root = new VBox();
         root.setSpacing(20);
         root.setPadding(new Insets(20));
@@ -183,7 +199,7 @@ public class SceneCreation {
             textField3.clear();
             textField4.clear();
             passwordField.clear();
-            sceneSwitcher.switchToScene1(event);
+            sceneSwitcher.switchToLoginPage(event);
 
              // dit moet iets anders zijn
         });
@@ -194,7 +210,7 @@ public class SceneCreation {
         return new Scene(root, 600, 800); // Set the desired size of the scene
     }
 
-    public Scene createScene3() {
+    public Scene createResetPasswordPage() {
         VBox root = new VBox();
         root.setSpacing(20);
         root.setPadding(new Insets(20));
@@ -219,127 +235,147 @@ public class SceneCreation {
         Button resetPasswordButton = new Button("Wachtwoord herstellen");
         resetPasswordButton.setOnAction(event -> {
             // sceneFunctions.resetPassword(textField.getText(), passwordField.getText(), passwordField2.getText());
-            sceneSwitcher.switchToScene1(event);
+            sceneSwitcher.switchToLoginPage(event);
         });
         resetPasswordButton.getStyleClass().add("hover-button");
 
         Button backButton = new Button("Terug gaan");
-        backButton.setOnAction(event -> sceneSwitcher.switchToScene1(event));
+        backButton.setOnAction(event -> sceneSwitcher.switchToLoginPage(event));
         backButton.getStyleClass().add("hover-button");
 
         root.getChildren().addAll(welcomeText, textField, passwordField, passwordField2, backButton, resetPasswordButton);
 
         return new Scene(root, 600, 800); // Set the desired size of the scene
     }
-    public Scene createScene4() {
-        VBox root = new VBox();
-        root.setAlignment(Pos.CENTER);
-        root.setSpacing(20);
-        root.setStyle("-fx-background-color: white;");
+    public Scene createChatPage() {
+        BorderPane root = new BorderPane();
 
-        Label successLabel = new Label("Succesvol een nieuw account aangemaakt. Wil je inloggen?");
-        successLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: darkblue;");
+        // Create a VBox to hold the chat menu items
+        VBox chatMenuContainer = new VBox();
 
-        Button backButton = new Button("Terug naar Inloggen");
-        backButton.setOnAction(event -> sceneSwitcher.switchToScene1(event));
-        backButton.getStyleClass().add("hover-button");
+        // Create the chat menu as a ListView
+        ListView<String> chatMenu = new ListView<>();
+        chatMenu.setPrefWidth(200);
 
-        root.getChildren().addAll(successLabel, backButton);
+        // Create a placeholder item in the chat menu
+        chatMenu.getItems().add("Select a chat");
 
-        return new Scene(root, 600, 800); // Set the desired size of the scene
-    }
-    public Scene createScene5() {
-        VBox root = new VBox();
-        root.setSpacing(20);
-        root.setPadding(new Insets(20));
-        root.setAlignment(Pos.CENTER);
-        root.setStyle("-fx-background-color: white;");
+        // Create the create chat button
+        Button createChatButton = new Button("Create Chat");
 
-        Label titleLabel = new Label("AIsistify");
-        titleLabel.getStyleClass().addAll("header", "title-label");
+        // Create a map to store the chat history managers for each chat
+        Map<String, ChatHistoryManager> chatHistoryMap = new HashMap<>();
 
-        MenuButton createChatButton = new MenuButton("Create Chat");
-        createChatButton.getStyleClass().addAll("create_chat_button");
-        createChatButton.setMinSize(80, 30);
+        createChatButton.setOnAction(event -> {
+            // Prompt the user to enter a name for the new chat
+            TextInputDialog dialog = new TextInputDialog();
+            dialog.setTitle("Create Chat");
+            dialog.setHeaderText("Enter the name for the new chat:");
+            Optional<String> result = dialog.showAndWait();
 
-        MenuItem textMenuItem = new MenuItem("Text");
-        textMenuItem.setOnAction(event -> sceneFunctions.addChat("Text"));
-        MenuItem imageMenuItem = new MenuItem("Image");
-        imageMenuItem.setOnAction(event -> sceneFunctions.addChat("Image"));
-        MenuItem booleanMenuItem = new MenuItem("Boolean");
-        booleanMenuItem.setOnAction(event -> sceneFunctions.addChat("Boolean"));
+            // Create a new chat with the entered name and type
+            result.ifPresent(chatName -> {
+                // Prompt the user to select the chat type
+                ChoiceDialog<ChatType> typeDialog = new ChoiceDialog<>(ChatType.BOOLEAN, ChatType.BOOLEAN, ChatType.TEXT);
+                typeDialog.setTitle("Select Chat Type");
+                typeDialog.setHeaderText("Select the type for the new chat:");
+                typeDialog.setContentText("Chat Type:");
+                Optional<ChatType> typeResult = typeDialog.showAndWait();
 
-        createChatButton.getItems().addAll(textMenuItem, imageMenuItem, booleanMenuItem);
+                // Add the new chat to the chat menu with its associated type
+                typeResult.ifPresent(chatType -> {
+                    chatMenu.getItems().add(chatName);
+                    chatMap.put(chatName, chatType);
+                    chatHistoryMap.put(chatName, new ChatHistoryManager());
+                });
+            });
+        });
 
-        HBox headerBox = new HBox();
-        headerBox.setAlignment(Pos.TOP_CENTER);
-        headerBox.getStyleClass().add("header");
+        // Add the create chat button to the chat menu container
+        chatMenuContainer.getChildren().addAll(chatMenu, createChatButton);
 
-        HBox titleBox = new HBox(titleLabel);
-        titleBox.setAlignment(Pos.TOP_CENTER);
-        titleBox.getStyleClass().add("title-box");
+        // Set the chat menu container on the left side of the root layout
+        root.setLeft(chatMenuContainer);
 
-        HBox createChatBox = new HBox(createChatButton);
-        createChatBox.setAlignment(Pos.TOP_LEFT);
-        createChatBox.getStyleClass().add("create-chat-box");
+        // Create the chat history display box
+        TextArea chatHistoryDisplay = new TextArea();
+        chatHistoryDisplay.setEditable(false);
+        chatHistoryDisplay.setWrapText(true);
 
-        HBox.setHgrow(titleBox, Priority.ALWAYS);
-        headerBox.getChildren().addAll(titleBox, createChatBox);
+        // Create the message input box
+        TextField messageInput = new TextField();
+        messageInput.setPromptText("Type your message here");
 
-        HBox chatContainer = new HBox();
-        chatContainer.setAlignment(Pos.CENTER);
-        chatContainer.setSpacing(10);
-        chatContainer.setFillHeight(true);
-        VBox.setVgrow(chatContainer, Priority.ALWAYS);
-        HBox.setHgrow(chatContainer, Priority.ALWAYS);
+        // Create the send button
+        Button sendButton = new Button("Send");
+        sendButton.setDefaultButton(true);
 
-        HBox chatHistoryLabelBox = new HBox();
-        chatHistoryLabelBox.setAlignment(Pos.CENTER);
-        chatHistoryLabelBox.getStyleClass().add("wrapper");
-        chatHistoryLabel = new Label("Chat");
-        chatHistoryLabel.setFont(Font.font(18));
-        chatHistoryLabel.getStyleClass().add("wrapper");
-        chatHistoryLabelBox.getChildren().add(chatHistoryLabel);
+        // Create the chat area containing the chat history display, message input, and send button
+        VBox chatArea = new VBox(10);
+        chatArea.setPadding(new Insets(10));
+        chatArea.getChildren().addAll(chatHistoryDisplay, messageInput, sendButton);
 
-        chatHistoryMenu = new VBox();
-        chatHistoryMenu.getStyleClass().add("chat_history_menu");
-        chatHistoryMenu.setPrefWidth(300);
-        chatHistoryMenu.setAlignment(Pos.TOP_LEFT);
-        chatHistoryMenu.setSpacing(10);
-        VBox.setVgrow(chatHistoryMenu, Priority.ALWAYS);
-        HBox.setHgrow(chatHistoryMenu, Priority.ALWAYS);
-        chatHistoryMenu.setMaxWidth(Double.MAX_VALUE);
-        chatHistoryMenu.getChildren().addAll(chatHistoryLabelBox);
+        sendButton.setOnAction(event -> {
+            String message = messageInput.getText();
+            // Process and send the message to the selected chat
+            QueryResolutionForm<String> queryForm = new QueryResolutionForm<>(message);
 
-        chatHistoryMenu.getChildren().addAll(
-                sceneFunctions.createChatHistoryButton("Text", "text"),
-                sceneFunctions.createChatHistoryButton("Image", "image"),
-                sceneFunctions.createChatHistoryButton("Boolean", "boolean")
-        );
+            // Get the selected chat from the chat menu
+            String selectedChat = chatMenu.getSelectionModel().getSelectedItem();
 
-        chatBox = new VBox();
-        chatBox.getStyleClass().add("chat_box");
-        chatBox.setAlignment(Pos.CENTER);
-        chatBox.setSpacing(10);
-        VBox.setVgrow(chatBox, Priority.ALWAYS);
-        HBox.setHgrow(chatBox, Priority.ALWAYS);
-        placeholderLabel = new Label("No messages yet");
-        chatBox.getChildren().addAll(placeholderLabel);
+            // Get the chat type associated with the selected chat
+            ChatType selectedChatType = chatMap.get(selectedChat);
 
-        SplitPane splitPane = new SplitPane();
-        splitPane.getStyleClass().add("split-pane");
-        splitPane.setPrefWidth(600);
-        splitPane.setDividerPositions(0.2);
-        splitPane.getItems().addAll(chatHistoryMenu, chatBox);
+            // Get the ChatHistoryManager for the selected chat
+            ChatHistoryManager chatHistoryManager = chatHistoryMap.get(selectedChat);
 
-        VBox.setVgrow(splitPane, Priority.ALWAYS);
-        chatContainer.getChildren().addAll(splitPane);
+            // Set the selected chat factory based on the chat type
+            AbstractChatFactory<String, ?> selectedChatFactory;
+            if (selectedChatType == ChatType.BOOLEAN) {
+                selectedChatFactory = new TextToBooleanChatFactory();
+            } else if (selectedChatType == ChatType.TEXT) {
+                selectedChatFactory = new TextToTextChatFactory();
+            } else {
+                // Handle any additional chat types here
+                selectedChatFactory = null; // Provide the appropriate factory for the additional chat types
+            }
 
-        root.getChildren().addAll(headerBox, chatContainer);
+            if (selectedChatFactory != null) {
+                QueryResolutionStrategy<String, ?> strategy = selectedChatFactory.createStrategy();
+                strategy.setChatHistoryManager(chatHistoryManager);
+                QueryResolutionResult<?> result = strategy.resolve(queryForm);
 
-        Scene scene = new Scene(root, 800, 600);
-        scene.getStylesheets().add("file:///C:/Users/keanu/Desktop/github/PROJ2/proj2/Proj2/proj2/src/main/java/com/example/proj2/GuiManager/styles.css");
-        return scene;
+                // Append the user's message to the chat history display
+                chatHistoryDisplay.appendText("User: " + message + "\n");
+                // Append the chat response to the chat history display
+                chatHistoryDisplay.appendText("Bot: " + result.getResultData().toString() + "\n");
+            }
+
+            // Clear the message input box
+            messageInput.clear();
+        });
+
+        chatMenu.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            // Clear the chat history display when a new chat is selected
+            chatHistoryDisplay.clear();
+            // Load the chat history for the selected chat and display it in the chat history display
+            if (newValue != null && !newValue.equals("Select a chat")) {
+                ChatHistoryManager chatHistoryManager = chatHistoryMap.get(newValue);
+                List<String> chatHistory = chatHistoryManager.getChatHistory();
+                // Append the chat history to the chat history display
+                for (int i = 0; i < chatHistory.size(); i += 2) {
+                    String userMessage = chatHistory.get(i);
+                    String botResponse = chatHistory.get(i + 1);
+                    chatHistoryDisplay.appendText("User: " + userMessage + "\n");
+                    chatHistoryDisplay.appendText("Bot: " + botResponse + "\n");
+                }
+            }
+        });
+
+        // Set the chat area as the center of the root layout
+        root.setCenter(chatArea);
+
+        return new Scene(root, 800, 600); // Set the desired size of the scene
     }
     public Scene createSettings() {
         AnchorPane root = new AnchorPane();
@@ -367,7 +403,7 @@ public class SceneCreation {
         returnButton.getStyleClass().add("settings-button");
         returnButton.setLayoutX(350);
         returnButton.setLayoutY(50);
-        returnButton.setOnAction(event -> sceneSwitcher.switchToScene5(event));
+        returnButton.setOnAction(event -> sceneSwitcher.switchTocreateChatPage(event));
 
         Button logoutButton = new Button("Logout");
         logoutButton.getStyleClass().add("settings-button");
