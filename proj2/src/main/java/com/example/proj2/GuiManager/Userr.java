@@ -16,4 +16,8 @@ public class Userr {
     public String getPassword() {
         return password;
     }
+
+    public void setPassword(String newPassword) {
+        this.password = newPassword;
+    }
 }

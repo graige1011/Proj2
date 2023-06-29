@@ -235,7 +235,37 @@ public class SceneCreation {
         Button resetPasswordButton = new Button("Wachtwoord herstellen");
         resetPasswordButton.setOnAction(event -> {
             // sceneFunctions.resetPassword(textField.getText(), passwordField.getText(), passwordField2.getText());
-            sceneSwitcher.switchToLoginPage(event);
+            String username = textField.getText();
+            String newPassword = passwordField.getText();
+            String confirmPassword = passwordField2.getText();
+
+            if (newPassword.equals(confirmPassword)) {
+                // Perform the password reset logic here
+                boolean isPasswordResetSuccessful = resetPassword(username, newPassword);
+
+                if (isPasswordResetSuccessful) {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Password Reset Successful");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Your password has been successfully reset!");
+                    alert.showAndWait();
+
+                    // Switch back to the login page
+                    sceneSwitcher.switchToLoginPage(event);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Password Reset Failed");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Failed to reset your password. Please try again.");
+                    alert.showAndWait();
+                }
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Password Reset Failed");
+                alert.setHeaderText(null);
+                alert.setContentText("The passwords entered do not match. Please make sure to enter the same password in both fields.");
+                alert.showAndWait();
+            }
         });
         resetPasswordButton.getStyleClass().add("hover-button");
 
@@ -246,6 +276,22 @@ public class SceneCreation {
         root.getChildren().addAll(welcomeText, textField, passwordField, passwordField2, backButton, resetPasswordButton);
 
         return new Scene(root, 600, 800); // Set the desired size of the scene
+    }
+    private boolean resetPassword(String username, String newPassword) {
+        // Implement your password reset logic here
+        // This is just a placeholder method
+        // Replace it with the actual logic to reset the password for the given username
+        // Return true if the password reset is successful, false otherwise
+        // You can store the username-password mapping in the userList or a separate database
+
+        for (Userr user : userList) {
+            if (user.getUsername().equals(username)) {
+                user.setPassword(newPassword);
+                return true;
+            }
+        }
+
+        return false; // Password reset failed
     }
     public Scene createChatPage() {
         BorderPane root = new BorderPane();
