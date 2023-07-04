@@ -16,4 +16,12 @@ public class Userr {
     public String getPassword() {
         return password;
     }
+
+    public void setPassword(String newPassword) {
+        this.password = newPassword;
+    }
+
+    public void setUsername(String newUsername) {
+        this.username = newUsername;
+    }
 }
