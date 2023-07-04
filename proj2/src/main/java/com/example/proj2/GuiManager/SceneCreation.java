@@ -28,6 +28,12 @@ public class SceneCreation {
     private VBox chatBox;
     private AbstractChatFactory<String,String> TextchatFactory;
     private AbstractChatFactory<String,Boolean> BooleanchatFactory;
+    private Label usernameLabel;
+    private Label passwordLabel;
+    private Button loginButton;
+    private Button createAccountButton;
+    private Button forgotPasswordButton;
+    private Button forgotUsernameButton;
     private Map<String, ChatType> chatMap = new HashMap<>();
 
     private Map<String, QueryResolutionStrategy<?, ?>> chats = new HashMap<>();
@@ -71,7 +77,7 @@ public class SceneCreation {
         titleLabel.setStyle("-fx-font-size: 36px; -fx-text-fill: darkblue; -fx-font-weight: bold;");
         gridPane.add(titleLabel, 0, 0);
 
-        Label usernameLabel = new Label("Gebruikersnaam:");
+        usernameLabel = new Label("Gebruikersnaam:");
         usernameLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: lightblue;");
         gridPane.add(usernameLabel, 0, 1);
 
@@ -82,7 +88,7 @@ public class SceneCreation {
         usernameField.setPrefHeight(30);
         gridPane.add(usernameField, 1, 1);
 
-        Label passwordLabel = new Label("Wachtwoord:");
+        passwordLabel = new Label("Wachtwoord:");
         passwordLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: lightblue;");
         gridPane.add(passwordLabel, 0, 2);
 
@@ -93,7 +99,17 @@ public class SceneCreation {
         passwordField.setPrefHeight(30);
         gridPane.add(passwordField, 1, 2);
 
-        Button loginButton = new Button("Log in");
+
+
+        ChoiceBox<String> languageChoiceBox = new ChoiceBox<>();
+        languageChoiceBox.getItems().addAll("English", "Dutch", "Spanish");
+        languageChoiceBox.setValue("English");
+        languageChoiceBox.setStyle("-fx-background-color: white;");
+        gridPane.add(languageChoiceBox, 1, 10);
+
+
+
+        loginButton = new Button("Log in");
         loginButton.setOnAction(event -> {
             String username = usernameField.getText();
             String password = passwordField.getText();
@@ -122,7 +138,7 @@ public class SceneCreation {
         loginButton.setStyle("-fx-min-width: 150px;");
         gridPane.add(loginButton, 0, 3, 2, 1);
 
-        Button createAccountButton = new Button("Nieuw Account Aanmaken");
+        createAccountButton = new Button("Nieuw Account Aanmaken");
         createAccountButton.setOnAction(event -> {
             // sceneFunctions.handleAccountCreation();
             sceneSwitcher.switchToNewAccountPage(event);
@@ -131,7 +147,7 @@ public class SceneCreation {
         createAccountButton.setStyle("-fx-min-width: 150px;");
         gridPane.add(createAccountButton, 0, 4, 2, 1);
 
-        Button forgotPasswordButton = new Button("Wachtwoord Vergeten");
+        forgotPasswordButton = new Button("Wachtwoord Vergeten");
         forgotPasswordButton.setOnAction(event -> {
             // sceneFunctions.handlePasswordRecovery();
             sceneSwitcher.switchToResetPasswordPage(event);
@@ -139,12 +155,51 @@ public class SceneCreation {
         forgotPasswordButton.getStyleClass().add("hover-button");
         forgotPasswordButton.setStyle("-fx-min-width: 150px;");
         gridPane.add(forgotPasswordButton, 0, 5, 2, 1);
+
+        forgotUsernameButton = new Button("Gebruikersnaam Vergeten");
+        forgotUsernameButton.setOnAction(event -> {
+            sceneSwitcher.switchToResetUsernamePage(event);
+        });
+        forgotUsernameButton.getStyleClass().add("hover-button");
+        forgotUsernameButton.setStyle("-fx-min-width: 150px;");
+        gridPane.add(forgotUsernameButton, 0, 6, 2, 1);
+
         root.getChildren().add(gridPane);
+
+
+        languageChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            applyLanguage(newValue);
+        });
+
 
         // Allow the VBox and GridPane to grow and fill the available space
         VBox.setVgrow(gridPane, Priority.ALWAYS);
 
         return new Scene(root, 800, 600); // Set the desired size of the scene
+    }
+    private void applyLanguage(String selectedLanguage) {
+        if (selectedLanguage.equals("English")) {
+            usernameLabel.setText("Username:");
+            passwordLabel.setText("Password:");
+            loginButton.setText("Log in");
+            createAccountButton.setText("Create New Account");
+            forgotPasswordButton.setText("Forgot Password");
+            forgotUsernameButton.setText("Forgot Username");
+        } else if (selectedLanguage.equals("Dutch")) {
+            usernameLabel.setText("Gebruikersnaam:");
+            passwordLabel.setText("Wachtwoord:");
+            loginButton.setText("Log in");
+            createAccountButton.setText("Nieuw Account Aanmaken");
+            forgotPasswordButton.setText("Wachtwoord Vergeten");
+            forgotUsernameButton.setText("Gebruikersnaam Vergeten");
+        } else if (selectedLanguage.equals("Spanish")) {
+            usernameLabel.setText("Nombre de usuario:");
+            passwordLabel.setText("Contraseña:");
+            loginButton.setText("Iniciar sesión");
+            createAccountButton.setText("Crear nueva cuenta");
+            forgotPasswordButton.setText("Olvidé mi contraseña");
+            forgotUsernameButton.setText("Olvidé mi nombre de usuario");
+        }
     }
 
 
@@ -209,7 +264,6 @@ public class SceneCreation {
 
         return new Scene(root, 600, 800); // Set the desired size of the scene
     }
-
     public Scene createResetPasswordPage() {
         VBox root = new VBox();
         root.setSpacing(20);
@@ -269,6 +323,8 @@ public class SceneCreation {
         });
         resetPasswordButton.getStyleClass().add("hover-button");
 
+
+
         Button backButton = new Button("Terug gaan");
         backButton.setOnAction(event -> sceneSwitcher.switchToLoginPage(event));
         backButton.getStyleClass().add("hover-button");
@@ -293,6 +349,74 @@ public class SceneCreation {
 
         return false; // Password reset failed
     }
+    public Scene createResetUsernamePage() {
+        VBox root = new VBox();
+        root.setSpacing(20);
+        root.setPadding(new Insets(20));
+        root.setAlignment(Pos.CENTER);
+        root.setStyle("-fx-background-color: white;");
+
+        Label welcomeText = new Label("Reset je gebruikersnaam");
+        welcomeText.setStyle("-fx-font-size: 24px; -fx-text-fill: darkblue;");
+
+        TextField usernameField = new TextField();
+        usernameField.setPromptText("Voer je huidige gebruikersnaam in");
+        usernameField.setStyle("-fx-background-color: white;");
+
+        TextField newUsernameField = new TextField();
+        newUsernameField.setPromptText("Voer je nieuwe gebruikersnaam in");
+        newUsernameField.setStyle("-fx-background-color: white;");
+
+        Button resetUsernameButton = new Button("Gebruikersnaam herstellen");
+        resetUsernameButton.setOnAction(event -> {
+            String username = usernameField.getText();
+            String newUsername = newUsernameField.getText();
+
+            boolean isUsernameResetSuccessful = resetUsername(username, newUsername);
+
+            if (isUsernameResetSuccessful) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Username Reset Successful");
+                alert.setHeaderText(null);
+                alert.setContentText("Your username has been successfully reset!");
+                alert.showAndWait();
+
+                // Switch back to the login page
+                sceneSwitcher.switchToLoginPage(event);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Username Reset Failed");
+                alert.setHeaderText(null);
+                alert.setContentText("Failed to reset your username. Please try again.");
+                alert.showAndWait();
+            }
+        });
+        resetUsernameButton.getStyleClass().add("hover-button");
+
+        Button backButton = new Button("Terug gaan");
+        backButton.setOnAction(event -> sceneSwitcher.switchToLoginPage(event));
+        backButton.getStyleClass().add("hover-button");
+
+        root.getChildren().addAll(welcomeText, usernameField, newUsernameField, resetUsernameButton, backButton);
+
+        return new Scene(root, 600, 800); // Set the desired size of the scene
+    }
+    private boolean resetUsername(String oldUsername, String newUsername) {
+        // Implement your username reset logic here
+        // This is just a placeholder method
+        // Replace it with the actual logic to reset the username for the given oldUsername
+        // Return true if the username reset is successful, false otherwise
+        // You can store the username-password mapping in the userList or a separate database
+
+        for (Userr user : userList) {
+            if (user.getUsername().equals(oldUsername)) {
+                user.setUsername(newUsername);
+                return true;
+            }
+        }
+
+        return false; // Username reset failed
+    }
     public Scene createChatPage() {
         BorderPane root = new BorderPane();
 
@@ -308,6 +432,8 @@ public class SceneCreation {
 
         // Create the create chat button
         Button createChatButton = new Button("Create Chat");
+        Button backButton = new Button("Logout");
+        backButton.setOnAction(event -> sceneSwitcher.switchToLoginPage(event));
 
         // Create a map to store the chat history managers for each chat
         Map<String, ChatHistoryManager> chatHistoryMap = new HashMap<>();
@@ -338,7 +464,7 @@ public class SceneCreation {
         });
 
         // Add the create chat button to the chat menu container
-        chatMenuContainer.getChildren().addAll(chatMenu, createChatButton);
+        chatMenuContainer.getChildren().addAll(chatMenu, createChatButton,backButton);
 
         // Set the chat menu container on the left side of the root layout
         root.setLeft(chatMenuContainer);
@@ -461,5 +587,6 @@ public class SceneCreation {
 
         return new Scene(root);
     }
+
 
 }

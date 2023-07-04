@@ -31,6 +31,11 @@ public class SceneSwitcher {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(scene3);
     }
+    public void switchToResetUsernamePage(ActionEvent event) {
+        Scene resetUsernameScene = sceneCreation.createResetUsernamePage();
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(resetUsernameScene);
+    }
     // ??
 //    public void switchToScene4(ActionEvent event) {
 //        Scene scene4 = sceneCreation.createResetPasswordPage();
