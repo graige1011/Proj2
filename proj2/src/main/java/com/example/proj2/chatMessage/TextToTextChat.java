@@ -1,15 +1,5 @@
 package com.example.proj2.chatMessage;
 
-import com.example.proj2.GuiManager.SceneFunctions;
-import com.example.proj2.Scene5Controller;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class TextToTextChat implements QueryResolutionStrategy<String, String> {
     private ChatHistoryManager chatHistoryManager;
 
@@ -33,9 +23,17 @@ public class TextToTextChat implements QueryResolutionStrategy<String, String> {
             textResult = "I'm doing well, thank you!";
         } else if (query.equalsIgnoreCase("goodbye")) {
             textResult = "Goodbye! Have a great day!";
+        }
+        else if (query.equalsIgnoreCase("Fawaka mi mang whats going on")) {
+                textResult = "Fawaka mi pangpang u ma pangpang mang !";
+
+        }
+        else if (query.equalsIgnoreCase("goodbye")) {
+            textResult = "Goodbye! Have a great day!";
         } else {
             textResult = "I'm sorry, I didn't understand your query.";
         }
+
 
         return new QueryResolutionResult<>(textResult);
     }

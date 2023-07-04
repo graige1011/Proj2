@@ -3,9 +3,7 @@ package com.example.proj2.GuiManager;
 import com.example.proj2.chatMessage.*;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
 import java.util.HashMap;
@@ -39,7 +37,34 @@ public class SceneFunctions {
     public void changeLanguage( ) {}
     public void logout(){}
 
+    public static void displayChatMessage(TextArea chatHistoryDisplay, String message) {
+        // Toon het chatbericht in het chatgeschiedenisdisplay
+        // Voeg het bericht toe aan het einde van het chatgeschiedenisdisplay
+        chatHistoryDisplay.appendText(message + "\n");
+    }
 
+    public static void clearChatHistoryDisplay(TextArea chatHistoryDisplay) {
+        // Maak het chatgeschiedenisdisplay leeg
+        chatHistoryDisplay.clear();
+    }
+
+    public static void createChatMenuEntry(ListView<String> chatMenu, String chatName) {
+        // Voeg een chatmenu-item toe aan de chatmenu-lijst
+        chatMenu.getItems().add(chatName);
+    }
+
+    public static void updateChatHistoryDisplay(TextArea chatHistoryDisplay, List<String> chatMessages) {
+        // Clear the chat history display
+        chatHistoryDisplay.clear();
+
+        // Set the updated chat messages in the chat history display
+        for (String chatMessage : chatMessages) {
+            chatHistoryDisplay.appendText(chatMessage + "\n");
+        }
+    }
 }
+
+
+
 
 

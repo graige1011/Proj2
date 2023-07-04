@@ -267,6 +267,7 @@ public class SceneCreation {
         Map<String, ChatHistoryManager> chatHistoryMap = new HashMap<>();
 
         createChatButton.setOnAction(event -> {
+
             // Prompt the user to enter a name for the new chat
             TextInputDialog dialog = new TextInputDialog();
             dialog.setTitle("Create Chat");
@@ -286,7 +287,7 @@ public class SceneCreation {
                 typeResult.ifPresent(chatType -> {
                     chatMenu.getItems().add(chatName);
                     chatMap.put(chatName, chatType);
-                    chatHistoryMap.put(chatName, new ChatHistoryManager());
+                    chatHistoryMap.put(chatName, new ChatHistoryManager(chatName)); // Pass the chat name as the chat identifier
                 });
             });
         });
@@ -316,6 +317,7 @@ public class SceneCreation {
         chatArea.getChildren().addAll(chatHistoryDisplay, messageInput, sendButton);
 
         sendButton.setOnAction(event -> {
+            System.out.println("Send button clicked");
             String message = messageInput.getText();
             // Process and send the message to the selected chat
             QueryResolutionForm<String> queryForm = new QueryResolutionForm<>(message);
@@ -345,12 +347,19 @@ public class SceneCreation {
                 strategy.setChatHistoryManager(chatHistoryManager);
                 QueryResolutionResult<?> result = strategy.resolve(queryForm);
 
-                // Append the user's message to the chat history display
-                chatHistoryDisplay.appendText("User: " + message + "\n");
+                // Retrieve the last user message from the chat history manager
+                String lastUserMessage = chatHistoryManager.getLastUserMessage(selectedChat);
+
+                // Append the user's message and last user message to the chat history display
+                 chatHistoryDisplay.appendText("User: " + message + "\n");
+
                 // Append the chat response to the chat history display
                 chatHistoryDisplay.appendText("Bot: " + result.getResultData().toString() + "\n");
-            }
 
+                // Add the user's message and bot's response to the chat history for the selected chat
+                //chatHistoryManager.addChatMessage(message);
+                chatHistoryManager.addBotResponse(result.getResultData().toString());
+            }
             // Clear the message input box
             messageInput.clear();
         });
@@ -358,18 +367,17 @@ public class SceneCreation {
         chatMenu.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             // Clear the chat history display when a new chat is selected
             chatHistoryDisplay.clear();
-            // Load the chat history for the selected chat and display it in the chat history display
+
             if (newValue != null && !newValue.equals("Select a chat")) {
                 ChatHistoryManager chatHistoryManager = chatHistoryMap.get(newValue);
-                List<String> chatHistory = chatHistoryManager.getChatHistory();
+                List<String> chatMessages = chatHistoryManager.getChatHistory();
+
                 // Append the chat history to the chat history display
-                for (int i = 0; i < chatHistory.size(); i += 2) {
-                    String userMessage = chatHistory.get(i);
-                    String botResponse = chatHistory.get(i + 1);
-                    chatHistoryDisplay.appendText("User: " + userMessage + "\n");
-                    chatHistoryDisplay.appendText("Bot: " + botResponse + "\n");
+                for (String chatMessage : chatMessages) {
+                    chatHistoryDisplay.appendText(chatMessage + "\n");
                 }
             }
+
         });
 
         // Set the chat area as the center of the root layout

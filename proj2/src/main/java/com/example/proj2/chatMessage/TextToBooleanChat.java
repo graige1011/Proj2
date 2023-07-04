@@ -1,10 +1,5 @@
 package com.example.proj2.chatMessage;
 
-import com.example.proj2.Scene5Controller;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class TextToBooleanChat implements QueryResolutionStrategy<String, Boolean> {
     private ChatHistoryManager chatHistoryManager;
 
