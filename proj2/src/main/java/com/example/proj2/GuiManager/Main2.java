@@ -13,7 +13,7 @@ public class Main2 extends Application {
     @Override
     public void start(Stage primaryStage) {
         SceneCreation sceneCreation = new SceneCreation();
-        Scene scene = sceneCreation.createLoginPage2();
+        Scene scene = sceneCreation.createLoginPage();
         primaryStage.setScene(scene);
         primaryStage.setTitle("AIsistify");
         primaryStage.setWidth(800); // Set the window width
