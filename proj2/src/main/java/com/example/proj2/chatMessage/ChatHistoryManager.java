@@ -28,10 +28,7 @@ public class ChatHistoryManager {
     public List<String> getChatHistory() {
         return chatHistory;
     }
-    public void saveChatHistory() {
-        // Implement the logic to save the chat history to a file or any other storage mechanism
-        // You can use the chat name or any unique identifier to associate the chat history with the chat
-    }
+
     public String getLastUserMessage(String chatIdentifier) {
         List<String> chatMessages = chatHistory;
         if (chatMessages != null && !chatMessages.isEmpty()) {

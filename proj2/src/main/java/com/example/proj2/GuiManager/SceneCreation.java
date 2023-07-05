@@ -1,5 +1,6 @@
 package com.example.proj2.GuiManager;
 import com.example.proj2.chatMessage.*;
+import com.example.proj2.login.User;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert.AlertType;
@@ -40,14 +41,14 @@ public class SceneCreation {
 
     Map<String, ChatHistoryManager> chatHistoryMap = new HashMap<>();
 
-    private ArrayList<Userr> userList;
+    private ArrayList<User> userList;
 
     List<String> chatMessages = new ArrayList<>();
 
     public SceneCreation() {
         sceneFunctions = new SceneFunctions();
         sceneSwitcher = new SceneSwitcher(this);
-        userList =new ArrayList<Userr>();
+        userList =new ArrayList<User>();
     }
 
     enum ChatType {
@@ -116,7 +117,7 @@ public class SceneCreation {
 
             // Call a method or class to handle the login logic
             boolean isAuthenticated = false;
-            for (Userr user : userList) {
+            for (User user : userList) {
                 if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                     isAuthenticated = true;
                     break;
@@ -156,7 +157,7 @@ public class SceneCreation {
         forgotPasswordButton.setStyle("-fx-min-width: 150px;");
         gridPane.add(forgotPasswordButton, 0, 5, 2, 1);
 
-        forgotUsernameButton = new Button("Gebruikersnaam Vergeten");
+        forgotUsernameButton = new Button("Gebruikersnaam Veranderen");
         forgotUsernameButton.setOnAction(event -> {
             sceneSwitcher.switchToResetUsernamePage(event);
         });
@@ -184,14 +185,14 @@ public class SceneCreation {
             loginButton.setText("Log in");
             createAccountButton.setText("Create New Account");
             forgotPasswordButton.setText("Forgot Password");
-            forgotUsernameButton.setText("Forgot Username");
+            forgotUsernameButton.setText("Change Username");
         } else if (selectedLanguage.equals("Dutch")) {
             usernameLabel.setText("Gebruikersnaam:");
             passwordLabel.setText("Wachtwoord:");
             loginButton.setText("Log in");
             createAccountButton.setText("Nieuw Account Aanmaken");
             forgotPasswordButton.setText("Wachtwoord Vergeten");
-            forgotUsernameButton.setText("Gebruikersnaam Vergeten");
+            forgotUsernameButton.setText("Gebruikersnaam Veranderen");
         } else if (selectedLanguage.equals("Spanish")) {
             usernameLabel.setText("Nombre de usuario:");
             passwordLabel.setText("Contraseña:");
@@ -234,7 +235,7 @@ public class SceneCreation {
             // sceneFunctions.handleRegistration(textField.getText(), textField3.getText(), textField4.getText(), passwordField.getText());
             String name = textField4.getText();
             String password = passwordField.getText();
-            Userr newUser = new Userr(name,password);
+            User newUser = new User(name,password);
             userList.add(newUser);
 
             Alert alert = new Alert(AlertType.INFORMATION);
@@ -245,7 +246,7 @@ public class SceneCreation {
 
             // Print current user list in the terminal
             System.out.println("Current User List:");
-            for (Userr user : userList) {
+            for (User user : userList) {
                 System.out.println("Username: " + user.getUsername() + ", Password: " + user.getPassword());
             }
 
@@ -340,7 +341,7 @@ public class SceneCreation {
         // Return true if the password reset is successful, false otherwise
         // You can store the username-password mapping in the userList or a separate database
 
-        for (Userr user : userList) {
+        for (User user : userList) {
             if (user.getUsername().equals(username)) {
                 user.setPassword(newPassword);
                 return true;
@@ -408,7 +409,7 @@ public class SceneCreation {
         // Return true if the username reset is successful, false otherwise
         // You can store the username-password mapping in the userList or a separate database
 
-        for (Userr user : userList) {
+        for (User user : userList) {
             if (user.getUsername().equals(oldUsername)) {
                 user.setUsername(newUsername);
                 return true;

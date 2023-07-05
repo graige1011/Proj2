@@ -1,70 +1,48 @@
 package com.example.proj2.GuiManager;
 
-import com.example.proj2.chatMessage.*;
-import javafx.event.ActionEvent;
-import javafx.scene.Node;
-import javafx.scene.control.*;
+import com.example.proj2.chatMessage.ChatHistoryManager;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.VBox;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class SceneFunctions {
-    private TextField chatField;
-    private Button enterButton;
-    private VBox chatHistoryMenu;
+    private VBox chatMenuContainer;
+    private ListView<String> chatMenu;
+    private Button createChatButton;
+    private Map<String, ChatHistoryManager> chatHistoryMap;
+    private Map<String, SceneCreation.ChatType> chatMap;
 
-    private Label placeholderLabel;
-    private Label chatHistoryLabel;
-    private VBox chatBox;
-    private String selectedChat; // New variable to store the selected chat name
-    private TextToTextChat textChat; // Instance of TextToTextChat
-
-    private TextToBooleanChat booleanChat; // Instance of BooleanChat
-
-    private Map<String, QueryResolutionStrategy<?, ?>> chats = new HashMap<>();
+    private SceneCreation sceneCreation;
 
     public SceneFunctions() {
-        chatHistoryLabel = new Label();
-        chatBox = new VBox();
-        this.chatField = new TextField();
+        chatMenuContainer = new VBox();
+        chatMenu = new ListView<>();
+        createChatButton = new Button("Create Chat");
+        chatHistoryMap = new HashMap<>();
+        chatMap = new HashMap<>();
     }
 
 
-    public void changeToLightMode( ) {}
-    public void changeToDarkMode( ) {}
-    public void changeLanguage( ) {}
-    public void logout(){}
-
-    public static void displayChatMessage(TextArea chatHistoryDisplay, String message) {
-        // Toon het chatbericht in het chatgeschiedenisdisplay
-        // Voeg het bericht toe aan het einde van het chatgeschiedenisdisplay
-        chatHistoryDisplay.appendText(message + "\n");
+    public void changeToLightMode() {
     }
 
-    public static void clearChatHistoryDisplay(TextArea chatHistoryDisplay) {
-        // Maak het chatgeschiedenisdisplay leeg
-        chatHistoryDisplay.clear();
+    public void changeToDarkMode() {
     }
 
-    public static void createChatMenuEntry(ListView<String> chatMenu, String chatName) {
-        // Voeg een chatmenu-item toe aan de chatmenu-lijst
-        chatMenu.getItems().add(chatName);
+    public void changeLanguage() {
     }
 
-    public static void updateChatHistoryDisplay(TextArea chatHistoryDisplay, List<String> chatMessages) {
-        // Clear the chat history display
-        chatHistoryDisplay.clear();
-
-        // Set the updated chat messages in the chat history display
-        for (String chatMessage : chatMessages) {
-            chatHistoryDisplay.appendText(chatMessage + "\n");
-        }
+    public void logout() {
     }
+
 }
-
-
 
 
 

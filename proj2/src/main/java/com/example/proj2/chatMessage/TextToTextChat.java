@@ -23,13 +23,7 @@ public class TextToTextChat implements QueryResolutionStrategy<String, String> {
             textResult = "I'm doing well, thank you!";
         } else if (query.equalsIgnoreCase("goodbye")) {
             textResult = "Goodbye! Have a great day!";
-        }
-        else if (query.equalsIgnoreCase("Fawaka mi mang whats going on")) {
-                textResult = "Fawaka mi pangpang u ma pangpang mang !";
 
-        }
-        else if (query.equalsIgnoreCase("goodbye")) {
-            textResult = "Goodbye! Have a great day!";
         } else {
             textResult = "I'm sorry, I didn't understand your query.";
         }

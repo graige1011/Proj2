@@ -19,30 +19,26 @@ public class SceneSwitcher {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(scene1);
     }
+
     public void switchToNewAccountPage(ActionEvent event) {
         Scene scene2 = sceneCreation.createNewAccountPage();
 //        scene2.getStylesheets().add("file:///C:/Users/keanu/Desktop/github/PROJ2/proj2/Proj2/proj2/src/main/java/com/example/proj2/GuiManager/styles.css");
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(scene2);
     }
+
     public void switchToResetPasswordPage(ActionEvent event) {
         Scene scene3 = sceneCreation.createResetPasswordPage();
 //        scene3.getStylesheets().add("file:///C:/Users/keanu/Desktop/github/PROJ2/proj2/Proj2/proj2/src/main/java/com/example/proj2/GuiManager/styles.css");
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(scene3);
     }
+
     public void switchToResetUsernamePage(ActionEvent event) {
         Scene resetUsernameScene = sceneCreation.createResetUsernamePage();
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(resetUsernameScene);
     }
-    // ??
-//    public void switchToScene4(ActionEvent event) {
-//        Scene scene4 = sceneCreation.createResetPasswordPage();
-//        scene4.getStylesheets().add("file:///C:/Users/keanu/Desktop/github/PROJ2/proj2/Proj2/proj2/src/main/java/com/example/proj2/GuiManager/styles.css");
-//        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        window.setScene(scene4);
-//    }
 
     public void switchTocreateChatPage(ActionEvent event) {
         Scene scene5 = sceneCreation.createChatPage(); // Fix the method name to createScene5()
@@ -50,19 +46,6 @@ public class SceneSwitcher {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         VBox newRoot = new VBox();
         newRoot.getChildren().add(scene5.getRoot());
-
-        window.setScene(new Scene(newRoot, 600, 800)); // Set newRoot as the scene's root
-
-        window.setTitle("AIsistify");
-        window.show();
-    }
-
-    public void switchToSettings(ActionEvent event) {
-        Scene settingsScene = sceneCreation.createSettings();
-
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        VBox newRoot = new VBox();
-        newRoot.getChildren().add(settingsScene.getRoot());
 
         window.setScene(new Scene(newRoot, 600, 800)); // Set newRoot as the scene's root
 
