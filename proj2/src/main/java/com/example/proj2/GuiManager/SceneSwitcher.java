@@ -13,29 +13,31 @@ public class SceneSwitcher {
         this.sceneCreation = sceneCreation;
     }
 
+
+
     public void switchToLoginPage(ActionEvent event) {
-        Scene scene1 = sceneCreation.createLoginPage();
+        Scene scene1 = sceneCreation.createLoginPage2();
 //        scene1.getStylesheets().add("file:///C:/Users/keanu/Desktop/github/PROJ2/proj2/Proj2/proj2/src/main/java/com/example/proj2/GuiManager/styles.css");
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(scene1);
     }
 
     public void switchToNewAccountPage(ActionEvent event) {
-        Scene scene2 = sceneCreation.createNewAccountPage();
+        Scene scene2 = sceneCreation.createNewAccountPage2();
 //        scene2.getStylesheets().add("file:///C:/Users/keanu/Desktop/github/PROJ2/proj2/Proj2/proj2/src/main/java/com/example/proj2/GuiManager/styles.css");
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(scene2);
     }
 
     public void switchToResetPasswordPage(ActionEvent event) {
-        Scene scene3 = sceneCreation.createResetPasswordPage();
+        Scene scene3 = sceneCreation.createResetPasswordPage2();
 //        scene3.getStylesheets().add("file:///C:/Users/keanu/Desktop/github/PROJ2/proj2/Proj2/proj2/src/main/java/com/example/proj2/GuiManager/styles.css");
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(scene3);
     }
 
     public void switchToResetUsernamePage(ActionEvent event) {
-        Scene resetUsernameScene = sceneCreation.createResetUsernamePage();
+        Scene resetUsernameScene = sceneCreation.createResetUsernamePage2();
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(resetUsernameScene);
     }
@@ -46,7 +48,7 @@ public class SceneSwitcher {
     }
 
     public void switchTocreateChatPage(ActionEvent event) {
-        Scene scene5 = sceneCreation.createChatPage(); // Fix the method name to createScene5()
+        Scene scene5 = sceneCreation.createChatPage2(); //
 
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         VBox newRoot = new VBox();

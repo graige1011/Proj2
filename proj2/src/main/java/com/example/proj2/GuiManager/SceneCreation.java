@@ -22,7 +22,7 @@ public class SceneCreation {
 
     private SceneFunctions sceneFunctions;
     private SceneSwitcher sceneSwitcher;
-    //deze zijn nodig voor createScene5
+
     private TextField chatField;
     private Button enterButton;
     private VBox chatHistoryMenu;
@@ -49,17 +49,47 @@ public class SceneCreation {
     private ArrayList<User> userList;
 
     List<String> chatMessages = new ArrayList<>();
+    private SceneCreationStrategy loginPageStrategy;
+    private SceneCreationStrategy newAccountPageStrategy;
+    private SceneCreationStrategy resetPasswordPageStrategy;
+    private SceneCreationStrategy resetUsernamePageStrategy;
+    private SceneCreationStrategy createChatpageStrategy;
+    private SceneCreationStrategy createSettingsStrategy;
 
     public SceneCreation() {
         sceneFunctions = new SceneFunctions();
         sceneSwitcher = new SceneSwitcher(this);
         userList =new ArrayList<User>();
+
+        loginPageStrategy = new LoginPageStrategy(sceneSwitcher,userList);
+        newAccountPageStrategy = new NewAccountPageStrategy(sceneSwitcher,userList);
+        resetPasswordPageStrategy = new ResetPasswordPageStrategy(sceneSwitcher,userList);
+        resetUsernamePageStrategy = new ResetUsernamePageStrategy(sceneSwitcher,userList);
+        createChatpageStrategy = new CreateChatPageStrategy(sceneSwitcher);
+        createSettingsStrategy = new CreateSettingsStrategy(sceneSwitcher,sceneFunctions);
+
     }
 
     enum ChatType {
         BOOLEAN,
         TEXT
     }
+    public Scene createLoginPage2() {
+        return loginPageStrategy.createScene();
+    }
+    public Scene createNewAccountPage2() {
+        return newAccountPageStrategy.createScene();
+    }
+    public Scene createResetPasswordPage2() {
+        return resetPasswordPageStrategy.createScene();
+    }
+    public Scene createResetUsernamePage2(){return resetUsernamePageStrategy.createScene();}
+    public Scene createChatPage2() {
+        return createChatpageStrategy.createScene();
+    }
+    public Scene createSettings2(){return createSettingsStrategy.createScene();}
+
+
 
     public Scene createLoginPage() {
         VBox root = new VBox();
