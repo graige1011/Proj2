@@ -11,11 +11,7 @@ import java.util.*;
 
 public class CreateChatPageStrategy implements SceneCreationStrategy{
     private Map<String, ChatType> chatMap = new HashMap<>();
-    private Map<String, QueryResolutionStrategy<?, ?>> chats = new HashMap<>();
-    private AbstractChatFactory<String,String> TextchatFactory;
-    private AbstractChatFactory<String,Boolean> BooleanchatFactory;
-    List<String> chatMessages = new ArrayList<>();
-    Map<String, ChatHistoryManager> chatHistoryMap = new HashMap<>();
+
     private SceneSwitcher sceneSwitcher;
     enum ChatType {
         BOOLEAN,
@@ -58,7 +54,7 @@ public class CreateChatPageStrategy implements SceneCreationStrategy{
             // Create a new chat with the entered name and type
             result.ifPresent(chatName -> {
                 // Prompt the user to select the chat type
-                ChoiceDialog<ChatType> typeDialog = new ChoiceDialog<>(ChatType.BOOLEAN, ChatType.BOOLEAN, ChatType.TEXT);
+                ChoiceDialog<ChatType> typeDialog = new ChoiceDialog<>(ChatType.BOOLEAN, ChatType.TEXT);
                 typeDialog.setTitle("Select Chat Type");
                 typeDialog.setHeaderText("Select the type for the new chat:");
                 typeDialog.setContentText("Chat Type:");
@@ -128,8 +124,8 @@ public class CreateChatPageStrategy implements SceneCreationStrategy{
                 strategy.setChatHistoryManager(chatHistoryManager);
                 QueryResolutionResult<?> result = strategy.resolve(queryForm);
 
-                // Retrieve the last user message from the chat history manager
-                String lastUserMessage = chatHistoryManager.getLastUserMessage(selectedChat);
+//                // Retrieve the last user message from the chat history manager
+//                String lastUserMessage = chatHistoryManager.getLastUserMessage(selectedChat);
 
                 // Append the user's message and last user message to the chat history display
                 chatHistoryDisplay.appendText("User: " + message + "\n");

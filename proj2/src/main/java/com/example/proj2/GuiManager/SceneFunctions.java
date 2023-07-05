@@ -12,21 +12,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public class SceneFunctions {
-    private VBox chatMenuContainer;
-    private ListView<String> chatMenu;
-    private Button createChatButton;
-    private Map<String, ChatHistoryManager> chatHistoryMap;
-    private Map<String, SceneCreation.ChatType> chatMap;
 
-    private SceneCreation sceneCreation;
-
-    public SceneFunctions() {
-        chatMenuContainer = new VBox();
-        chatMenu = new ListView<>();
-        createChatButton = new Button("Create Chat");
-        chatHistoryMap = new HashMap<>();
-        chatMap = new HashMap<>();
-    }
     public static void applyLanguage(Label usernameLabel, Label passwordLabel, Button loginButton,
                                      Button createAccountButton, Button forgotPasswordButton,
                                      Button forgotUsernameButton, Button forgotEmailButton,

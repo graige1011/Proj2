@@ -14,7 +14,6 @@ import java.util.ArrayList;
 public class LoginPageStrategy implements SceneCreationStrategy {
     private SceneFunctions sceneFunctions;
     private SceneSwitcher sceneSwitcher;
-    //deze zijn nodig voor createScene5
     private Label usernameLabel;
     private Label passwordLabel;
     private Button loginButton;

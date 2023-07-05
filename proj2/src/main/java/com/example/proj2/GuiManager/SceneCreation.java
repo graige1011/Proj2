@@ -19,19 +19,16 @@ import java.util.*;
 
 
 public class SceneCreation {
-    private SceneFunctions sceneFunctions;
     private SceneSwitcher sceneSwitcher;
     private ArrayList<User> userList;
     private SceneCreationStrategy loginPageStrategy;
     private SceneCreationStrategy newAccountPageStrategy;
     private SceneCreationStrategy resetPasswordPageStrategy;
     private SceneCreationStrategy resetUsernamePageStrategy;
-    private SceneCreationStrategy createChatpageStrategy;
-    private SceneCreationStrategy createSettingsStrategy;
+    private SceneCreationStrategy createChatPageStrategy;
     private SceneCreationStrategy resetEmailPageStrategy;
 
     public SceneCreation() {
-        sceneFunctions = new SceneFunctions();
         sceneSwitcher = new SceneSwitcher(this);
         userList =new ArrayList<User>();
 
@@ -39,14 +36,9 @@ public class SceneCreation {
         newAccountPageStrategy = new NewAccountPageStrategy(sceneSwitcher,userList);
         resetPasswordPageStrategy = new ResetPasswordPageStrategy(sceneSwitcher,userList);
         resetUsernamePageStrategy = new ResetUsernamePageStrategy(sceneSwitcher,userList);
-        createChatpageStrategy = new CreateChatPageStrategy(sceneSwitcher);
-        createSettingsStrategy = new CreateSettingsStrategy(sceneSwitcher,sceneFunctions);
+        createChatPageStrategy = new CreateChatPageStrategy(sceneSwitcher);
         resetEmailPageStrategy = new ResetEmailPageStrategy(sceneSwitcher,userList);
 
-    }
-    enum ChatType {
-        BOOLEAN,
-        TEXT
     }
     public Scene createLoginPage() {
         return loginPageStrategy.createScene();
@@ -58,9 +50,9 @@ public class SceneCreation {
         return resetPasswordPageStrategy.createScene();
     }
     public Scene createResetUsernamePage(){return resetUsernamePageStrategy.createScene();}
-    public Scene createChatPage() {return createChatpageStrategy.createScene();
+    public Scene createChatPage() {
+        return createChatPageStrategy.createScene();
     }
-    public Scene createSettings(){return createSettingsStrategy.createScene();}
 
     public Scene createResetEmailPage(){return resetEmailPageStrategy.createScene();}
 
