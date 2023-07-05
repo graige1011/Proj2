@@ -20,21 +20,12 @@ public class SceneFunctions {
 
     private SceneCreation sceneCreation;
 
-
-
     public SceneFunctions() {
         chatMenuContainer = new VBox();
         chatMenu = new ListView<>();
         createChatButton = new Button("Create Chat");
         chatHistoryMap = new HashMap<>();
         chatMap = new HashMap<>();
-    }
-
-
-    public void changeToLightMode() {
-    }
-
-    public void changeToDarkMode() {
     }
     public static void applyLanguage(Label usernameLabel, Label passwordLabel, Button loginButton,
                                      Button createAccountButton, Button forgotPasswordButton,
@@ -66,15 +57,6 @@ public class SceneFunctions {
             forgotEmailButton.setText("Cambiar email");
         }
     }
-    public void changeLanguage() {
-    }
-
-
-
-
-    public void logout() {
-    }
-
 }
 
 
