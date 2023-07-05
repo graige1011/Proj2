@@ -12,7 +12,6 @@ import javafx.scene.layout.*;
 import java.util.ArrayList;
 
 public class LoginPageStrategy implements SceneCreationStrategy {
-    private SceneFunctions sceneFunctions;
     private SceneSwitcher sceneSwitcher;
     private Label usernameLabel;
     private Label passwordLabel;
