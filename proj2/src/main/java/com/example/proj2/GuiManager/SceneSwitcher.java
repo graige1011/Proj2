@@ -39,6 +39,11 @@ public class SceneSwitcher {
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(resetUsernameScene);
     }
+    public void switchToResetEmailPage(ActionEvent event) {
+        Scene resetEmailScene = sceneCreation.createResetEmailPage();
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(resetEmailScene);
+    }
 
     public void switchTocreateChatPage(ActionEvent event) {
         Scene scene5 = sceneCreation.createChatPage(); // Fix the method name to createScene5()

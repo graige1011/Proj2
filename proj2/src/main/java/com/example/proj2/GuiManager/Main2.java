@@ -12,7 +12,6 @@ public class Main2 extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-
         SceneCreation sceneCreation = new SceneCreation();
         Scene scene = sceneCreation.createLoginPage();
         primaryStage.setScene(scene);

@@ -16,6 +16,8 @@ import javafx.scene.text.Font;
 
 import java.util.*;
 
+
+
 public class SceneCreation {
 
     private SceneFunctions sceneFunctions;
@@ -35,6 +37,9 @@ public class SceneCreation {
     private Button createAccountButton;
     private Button forgotPasswordButton;
     private Button forgotUsernameButton;
+    private Button forgotEmailButton;
+    private PasswordField passwordField;
+    private TextField usernameField;
     private Map<String, ChatType> chatMap = new HashMap<>();
 
     private Map<String, QueryResolutionStrategy<?, ?>> chats = new HashMap<>();
@@ -82,7 +87,7 @@ public class SceneCreation {
         usernameLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: lightblue;");
         gridPane.add(usernameLabel, 0, 1);
 
-        TextField usernameField = new TextField();
+        usernameField = new TextField();
         usernameField.setPromptText("Voer gebruikersnaam in");
         usernameField.setStyle("-fx-background-color: white;");
         usernameField.setPrefWidth(200);
@@ -93,7 +98,7 @@ public class SceneCreation {
         passwordLabel.setStyle("-fx-font-size: 18px; -fx-text-fill: lightblue;");
         gridPane.add(passwordLabel, 0, 2);
 
-        PasswordField passwordField = new PasswordField();
+        passwordField = new PasswordField();
         passwordField.setPromptText("Voer wachtwoord in");
         passwordField.setStyle("-fx-background-color: white;");
         passwordField.setPrefWidth(200);
@@ -157,13 +162,22 @@ public class SceneCreation {
         forgotPasswordButton.setStyle("-fx-min-width: 150px;");
         gridPane.add(forgotPasswordButton, 0, 5, 2, 1);
 
-        forgotUsernameButton = new Button("Gebruikersnaam Veranderen");
+        forgotUsernameButton = new Button("Gebruikersnaam Vergeten");
         forgotUsernameButton.setOnAction(event -> {
             sceneSwitcher.switchToResetUsernamePage(event);
         });
         forgotUsernameButton.getStyleClass().add("hover-button");
         forgotUsernameButton.setStyle("-fx-min-width: 150px;");
         gridPane.add(forgotUsernameButton, 0, 6, 2, 1);
+
+        forgotEmailButton = new Button("Forgot Email");
+        forgotEmailButton.setOnAction(event -> {
+            sceneSwitcher.switchToResetEmailPage(event);
+        });
+        forgotEmailButton.getStyleClass().add("hover-button");
+        forgotEmailButton.setStyle("-fx-min-width: 150px;");
+        gridPane.add(forgotEmailButton, 0, 7, 2, 1);
+
 
         root.getChildren().add(gridPane);
 
@@ -185,14 +199,18 @@ public class SceneCreation {
             loginButton.setText("Log in");
             createAccountButton.setText("Create New Account");
             forgotPasswordButton.setText("Forgot Password");
-            forgotUsernameButton.setText("Change Username");
+            forgotUsernameButton.setText("Forgot Username");
+            passwordField.setPromptText("Enter password");
+            usernameField.setPromptText("Enter username");
         } else if (selectedLanguage.equals("Dutch")) {
             usernameLabel.setText("Gebruikersnaam:");
             passwordLabel.setText("Wachtwoord:");
             loginButton.setText("Log in");
             createAccountButton.setText("Nieuw Account Aanmaken");
             forgotPasswordButton.setText("Wachtwoord Vergeten");
-            forgotUsernameButton.setText("Gebruikersnaam Veranderen");
+            forgotUsernameButton.setText("Gebruikersnaam Vergeten");
+            passwordField.setPromptText("Voer wachtwoord in");
+            usernameField.setPromptText("Voer gebruikersnaam in");
         } else if (selectedLanguage.equals("Spanish")) {
             usernameLabel.setText("Nombre de usuario:");
             passwordLabel.setText("Contraseña:");
@@ -200,8 +218,11 @@ public class SceneCreation {
             createAccountButton.setText("Crear nueva cuenta");
             forgotPasswordButton.setText("Olvidé mi contraseña");
             forgotUsernameButton.setText("Olvidé mi nombre de usuario");
+            passwordField.setPromptText("Ingrese contraseña");
+            usernameField.setPromptText("Ingrese nombre de usuario");
         }
     }
+
 
 
     public Scene createNewAccountPage() {
@@ -233,9 +254,24 @@ public class SceneCreation {
         Button registerButton = new Button("Register");
         registerButton.setOnAction(event -> {
             // sceneFunctions.handleRegistration(textField.getText(), textField3.getText(), textField4.getText(), passwordField.getText());
+
+
             String name = textField4.getText();
             String password = passwordField.getText();
-            User newUser = new User(name,password);
+            String email = textField3.getText();
+
+            // Validate registration
+            boolean registrationValid = User.validateRegistration(name,password);
+            if (!registrationValid) {
+                Alert errorAlert = new Alert(AlertType.ERROR);
+                errorAlert.setTitle("Registration Failed");
+                errorAlert.setHeaderText(null);
+                errorAlert.setContentText("Registration failed! Please try again.");
+                errorAlert.showAndWait();
+                return; // Stop further execution
+            }
+
+            User newUser = new User(name, password, email);
             userList.add(newUser);
 
             Alert alert = new Alert(AlertType.INFORMATION);
@@ -247,8 +283,14 @@ public class SceneCreation {
             // Print current user list in the terminal
             System.out.println("Current User List:");
             for (User user : userList) {
-                System.out.println("Username: " + user.getUsername() + ", Password: " + user.getPassword());
+                System.out.println("Username: " + user.getUsername() + ", Password: " + user.getPassword() + ", Email: " + user.getEmail());
             }
+
+
+
+            // Registration successful
+            System.out.println("Registration successful!");
+            // Perform actions after successful registration
 
             // Reset the registration form
             textField.clear();
@@ -257,7 +299,7 @@ public class SceneCreation {
             passwordField.clear();
             sceneSwitcher.switchToLoginPage(event);
 
-             // dit moet iets anders zijn
+            // dit moet iets anders zijn
         });
         registerButton.getStyleClass().add("hover-button");
 
@@ -418,6 +460,76 @@ public class SceneCreation {
 
         return false; // Username reset failed
     }
+    public Scene createResetEmailPage() {
+        VBox root = new VBox();
+        root.setSpacing(20);
+        root.setPadding(new Insets(20));
+        root.setAlignment(Pos.CENTER);
+        root.setStyle("-fx-background-color: white;");
+
+        Label welcomeText = new Label("Reset Your Email");
+        welcomeText.setStyle("-fx-font-size: 24px; -fx-text-fill: darkblue;");
+
+        TextField usernameField = new TextField();
+        usernameField.setPromptText("Enter your username");
+        usernameField.setStyle("-fx-background-color: white;");
+
+        TextField newEmailField = new TextField();
+        newEmailField.setPromptText("Enter your new email");
+        newEmailField.setStyle("-fx-background-color: white;");
+
+        Button resetEmailButton = new Button("Reset Email");
+        resetEmailButton.setOnAction(event -> {
+            String username = usernameField.getText();
+            String newEmail = newEmailField.getText();
+
+            // Perform the email reset logic here
+            boolean isEmailResetSuccessful = resetEmail(username, newEmail);
+
+            if (isEmailResetSuccessful) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Email Reset Successful");
+                alert.setHeaderText(null);
+                alert.setContentText("Your email has been successfully reset!");
+                alert.showAndWait();
+
+                // Switch back to the login page
+                sceneSwitcher.switchToLoginPage(event);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Email Reset Failed");
+                alert.setHeaderText(null);
+                alert.setContentText("Failed to reset your email. Please try again.");
+                alert.showAndWait();
+            }
+        });
+        resetEmailButton.getStyleClass().add("hover-button");
+
+        Button backButton = new Button("Go Back");
+        backButton.setOnAction(event -> sceneSwitcher.switchToLoginPage(event));
+        backButton.getStyleClass().add("hover-button");
+
+        root.getChildren().addAll(welcomeText, usernameField, newEmailField, backButton, resetEmailButton);
+
+        return new Scene(root, 600, 800); // Set the desired size of the scene
+    }
+
+    private boolean resetEmail(String username, String newEmail) {
+        // Implement your email reset logic here
+        // This is just a placeholder method
+        // Replace it with the actual logic to reset the email for the given username
+        // Return true if the email reset is successful, false otherwise
+        // You can store the username-email mapping in the userList or a separate database
+
+        for (User user : userList) {
+            if (user.getUsername().equals(username)) {
+                user.setEmail(newEmail);
+                return true;
+            }
+        }
+
+        return false; // Email reset failed
+    }
     public Scene createChatPage() {
         BorderPane root = new BorderPane();
 
@@ -440,7 +552,6 @@ public class SceneCreation {
         Map<String, ChatHistoryManager> chatHistoryMap = new HashMap<>();
 
         createChatButton.setOnAction(event -> {
-
             // Prompt the user to enter a name for the new chat
             TextInputDialog dialog = new TextInputDialog();
             dialog.setTitle("Create Chat");
@@ -460,7 +571,7 @@ public class SceneCreation {
                 typeResult.ifPresent(chatType -> {
                     chatMenu.getItems().add(chatName);
                     chatMap.put(chatName, chatType);
-                    chatHistoryMap.put(chatName, new ChatHistoryManager(chatName)); // Pass the chat name as the chat identifier
+                    chatHistoryMap.put(chatName, new ChatHistoryManager(chatName));
                 });
             });
         });
@@ -490,7 +601,6 @@ public class SceneCreation {
         chatArea.getChildren().addAll(chatHistoryDisplay, messageInput, sendButton);
 
         sendButton.setOnAction(event -> {
-            System.out.println("Send button clicked");
             String message = messageInput.getText();
             // Process and send the message to the selected chat
             QueryResolutionForm<String> queryForm = new QueryResolutionForm<>(message);
@@ -520,19 +630,12 @@ public class SceneCreation {
                 strategy.setChatHistoryManager(chatHistoryManager);
                 QueryResolutionResult<?> result = strategy.resolve(queryForm);
 
-                // Retrieve the last user message from the chat history manager
-                String lastUserMessage = chatHistoryManager.getLastUserMessage(selectedChat);
-
-                // Append the user's message and last user message to the chat history display
-                 chatHistoryDisplay.appendText("User: " + message + "\n");
-
+                // Append the user's message to the chat history display
+                chatHistoryDisplay.appendText("User: " + message + "\n");
                 // Append the chat response to the chat history display
                 chatHistoryDisplay.appendText("Bot: " + result.getResultData().toString() + "\n");
-
-                // Add the user's message and bot's response to the chat history for the selected chat
-                //chatHistoryManager.addChatMessage(message);
-                chatHistoryManager.addBotResponse(result.getResultData().toString());
             }
+
             // Clear the message input box
             messageInput.clear();
         });
@@ -540,17 +643,18 @@ public class SceneCreation {
         chatMenu.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             // Clear the chat history display when a new chat is selected
             chatHistoryDisplay.clear();
-
+            // Load the chat history for the selected chat and display it in the chat history display
             if (newValue != null && !newValue.equals("Select a chat")) {
                 ChatHistoryManager chatHistoryManager = chatHistoryMap.get(newValue);
-                List<String> chatMessages = chatHistoryManager.getChatHistory();
-
+                List<String> chatHistory = chatHistoryManager.getChatHistory();
                 // Append the chat history to the chat history display
-                for (String chatMessage : chatMessages) {
-                    chatHistoryDisplay.appendText(chatMessage + "\n");
+                for (int i = 0; i < chatHistory.size(); i += 2) {
+                    String userMessage = chatHistory.get(i);
+                    String botResponse = chatHistory.get(i + 1);
+                    chatHistoryDisplay.appendText("User: " + userMessage + "\n");
+                    chatHistoryDisplay.appendText("Bot: " + botResponse + "\n");
                 }
             }
-
         });
 
         // Set the chat area as the center of the root layout
