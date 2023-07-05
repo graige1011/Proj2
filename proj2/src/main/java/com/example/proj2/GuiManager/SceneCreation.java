@@ -19,36 +19,9 @@ import java.util.*;
 
 
 public class SceneCreation {
-
     private SceneFunctions sceneFunctions;
     private SceneSwitcher sceneSwitcher;
-
-    private TextField chatField;
-    private Button enterButton;
-    private VBox chatHistoryMenu;
-    private Label placeholderLabel;
-    private Label chatHistoryLabel;
-    private VBox chatBox;
-    private AbstractChatFactory<String,String> TextchatFactory;
-    private AbstractChatFactory<String,Boolean> BooleanchatFactory;
-    private Label usernameLabel;
-    private Label passwordLabel;
-    private Button loginButton;
-    private Button createAccountButton;
-    private Button forgotPasswordButton;
-    private Button forgotUsernameButton;
-    private Button forgotEmailButton;
-    private PasswordField passwordField;
-    private TextField usernameField;
-    private Map<String, ChatType> chatMap = new HashMap<>();
-
-    private Map<String, QueryResolutionStrategy<?, ?>> chats = new HashMap<>();
-
-    Map<String, ChatHistoryManager> chatHistoryMap = new HashMap<>();
-
     private ArrayList<User> userList;
-
-    List<String> chatMessages = new ArrayList<>();
     private SceneCreationStrategy loginPageStrategy;
     private SceneCreationStrategy newAccountPageStrategy;
     private SceneCreationStrategy resetPasswordPageStrategy;
@@ -90,8 +63,5 @@ public class SceneCreation {
     public Scene createSettings(){return createSettingsStrategy.createScene();}
 
     public Scene createResetEmailPage(){return resetEmailPageStrategy.createScene();}
-
-
-
 
 }

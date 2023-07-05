@@ -11,13 +11,11 @@ import java.util.*;
 
 public class CreateChatPageStrategy implements SceneCreationStrategy{
     private Map<String, ChatType> chatMap = new HashMap<>();
-
     private Map<String, QueryResolutionStrategy<?, ?>> chats = new HashMap<>();
     private AbstractChatFactory<String,String> TextchatFactory;
     private AbstractChatFactory<String,Boolean> BooleanchatFactory;
-
+    List<String> chatMessages = new ArrayList<>();
     Map<String, ChatHistoryManager> chatHistoryMap = new HashMap<>();
-
     private SceneSwitcher sceneSwitcher;
     enum ChatType {
         BOOLEAN,
