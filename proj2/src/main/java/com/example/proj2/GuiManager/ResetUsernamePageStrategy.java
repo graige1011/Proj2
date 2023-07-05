@@ -33,7 +33,7 @@ public class ResetUsernamePageStrategy implements SceneCreationStrategy {
         welcomeText.setStyle("-fx-font-size: 24px; -fx-text-fill: darkblue;");
 
         TextField usernameField = new TextField();
-        usernameField.setPromptText("Voer je huidige gebruikersnaam in");
+        usernameField.setPromptText("Voer je huidige email in");
         usernameField.setStyle("-fx-background-color: white;");
 
         TextField newUsernameField = new TextField();
@@ -42,10 +42,10 @@ public class ResetUsernamePageStrategy implements SceneCreationStrategy {
 
         Button resetUsernameButton = new Button("Gebruikersnaam herstellen");
         resetUsernameButton.setOnAction(event -> {
-            String username = usernameField.getText();
+            String email = usernameField.getText();
             String newUsername = newUsernameField.getText();
 
-            boolean isUsernameResetSuccessful = resetUsername(username, newUsername);
+            boolean isUsernameResetSuccessful = resetUsername(email, newUsername);
 
             if (isUsernameResetSuccessful) {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -76,7 +76,7 @@ public class ResetUsernamePageStrategy implements SceneCreationStrategy {
 
     }
 
-    private boolean resetUsername(String oldUsername, String newUsername) {
+    private boolean resetUsername(String email, String newUsername) {
         // Implement your username reset logic here
         // This is just a placeholder method
         // Replace it with the actual logic to reset the username for the given oldUsername
@@ -84,7 +84,7 @@ public class ResetUsernamePageStrategy implements SceneCreationStrategy {
         // You can store the username-password mapping in the userList or a separate database
 
         for (User user : userList) {
-            if (user.getUsername().equals(oldUsername)) {
+            if (user.getEmail().equals(email)) {
                 user.setUsername(newUsername);
                 return true;
             }

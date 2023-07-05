@@ -154,7 +154,8 @@ public class LoginPageStrategy implements SceneCreationStrategy {
 
 
         languageChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            applyLanguage(newValue);
+            SceneFunctions.applyLanguage(usernameLabel, passwordLabel, loginButton, createAccountButton,
+                    forgotPasswordButton, forgotUsernameButton, forgotEmailButton, newValue);
         });
 
 
@@ -163,28 +164,6 @@ public class LoginPageStrategy implements SceneCreationStrategy {
 
         return new Scene(root, 800, 600); // Set the desired size of the scene
     }
-    private void applyLanguage(String selectedLanguage) {
-        if (selectedLanguage.equals("English")) {
-            usernameLabel.setText("Username:");
-            passwordLabel.setText("Password:");
-            loginButton.setText("Log in");
-            createAccountButton.setText("Create New Account");
-            forgotPasswordButton.setText("Forgot Password");
-            forgotUsernameButton.setText("Change Username");
-        } else if (selectedLanguage.equals("Dutch")) {
-            usernameLabel.setText("Gebruikersnaam:");
-            passwordLabel.setText("Wachtwoord:");
-            loginButton.setText("Log in");
-            createAccountButton.setText("Nieuw Account Aanmaken");
-            forgotPasswordButton.setText("Wachtwoord Vergeten");
-            forgotUsernameButton.setText("Gebruikersnaam Veranderen");
-        } else if (selectedLanguage.equals("Spanish")) {
-            usernameLabel.setText("Nombre de usuario:");
-            passwordLabel.setText("Contraseña:");
-            loginButton.setText("Iniciar sesión");
-            createAccountButton.setText("Crear nueva cuenta");
-            forgotPasswordButton.setText("Olvidé mi contraseña");
-            forgotUsernameButton.setText("Olvidé mi nombre de usuario");
-        }
-    }
+
+
 }

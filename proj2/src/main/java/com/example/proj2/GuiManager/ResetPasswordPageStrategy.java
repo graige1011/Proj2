@@ -13,9 +13,12 @@ public class ResetPasswordPageStrategy implements SceneCreationStrategy {
     private SceneSwitcher sceneSwitcher;
     private ArrayList<User> userList;
 
+
     public ResetPasswordPageStrategy(SceneSwitcher sceneSwitcher,ArrayList<User> userList) {
         this.sceneSwitcher = sceneSwitcher;
         this.userList = userList;
+
+
     }
     @Override
     public Scene createScene() {
